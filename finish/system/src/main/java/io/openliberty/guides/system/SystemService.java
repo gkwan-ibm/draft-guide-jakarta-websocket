@@ -55,13 +55,13 @@ public class SystemService {
 
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("WebSocket opened for session: " + session.getId());
+        System.out.println("Server connected to session: " + session.getId());
         sessions.add(session);
     }
     
     @OnMessage
     public void onMessage(String option, Session session) {
-        System.out.println("received message \"" + option + "\" " +
+        System.out.println("Server received message \"" + option + "\" " +
                            "from session: " + session.getId());
         try {
             JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -91,8 +91,8 @@ public class SystemService {
 
     @OnClose
     public void onClose(Session session, CloseReason closeReason) {
-        System.out.println("WebSocket closed for " + session.getId() +
-                           " with reason " + closeReason.getCloseCode());
+        System.out.println("Session " + session.getId() +
+                           " was closed with reason " + closeReason.getCloseCode());
         sessions.remove(session);
     }
 
