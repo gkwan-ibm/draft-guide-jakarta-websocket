@@ -53,22 +53,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="refreshSection">
-                    <label>
-                        <input type="radio" name="refreshOption" value="loadAverage">
-                        System Load
-                    </label>
-                    <label>
-                        <input type="radio" name="refreshOption" value="memoryUsage">
-                        Memory Usage
-                    </label>
-                    <label>
-                        <input type="radio" name="refreshOption" value="both" checked>
-                        Both
-                    </label>
-                    <button id="refreshButton" 
-                        onclick="javascript:refresh()">Refresh</button> 
-                </div>
             </div>
         </section>
         <footer class="bodyFooter">
@@ -87,38 +71,23 @@
     const webSocket = new WebSocket('ws://localhost:9081/systemLoad')
 
     webSocket.onerror = function (event) {
-        onError(event)
+        console.log(event);
     };
 
     webSocket.onopen = function (event) {
-        onOpen(event)
+        console.log(event);
     };
 
     webSocket.onmessage = function (event) {
-        onMessage(event)
-    };
-
-    function onMessage(event) {
         var data = JSON.parse(event.data);
         var tableRow = document.createElement('tr');
-        var loadAverage = data.loadAverage == null ? '' : data.loadAverage.toFixed(2);
-        var memoryUsage = data.memoryUsage == null ? '' : data.memoryUsage.toFixed(2);
+        var loadAverage = data.loadAverage == null ? '-' : data.loadAverage.toFixed(2);
+        var memoryUsage = data.memoryUsage == null ? '-' : data.memoryUsage.toFixed(2);
         tableRow.innerHTML = '<td>' + data.time + '</td>' +
                              '<td>' + loadAverage + '</td>' +
                              '<td>' + memoryUsage + '</td>';
         document.getElementById('systemLoadsTableBody').appendChild(tableRow);
-    }
-
-    function refresh() {
-        var options = document.getElementsByName('refreshOption');
-        var refreshOption = "both";
-        for(var i = 0; i < options.length; i++) {
-            if(options[i].checked) {
-                refreshOption = options[i].value;
-            }
-        }
-        webSocket.send(refreshOption);
-    }
+    };
         </script>
     </body>
 </html>

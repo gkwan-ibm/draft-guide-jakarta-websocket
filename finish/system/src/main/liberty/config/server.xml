@@ -1,8 +1,14 @@
 <server description="System Service">
 
     <featureManager>
+        
+        <!-- System WebSocker server -->
         <feature>websocket-2.0</feature>
         <feature>jsonb-2.0</feature>
+        
+        <!-- SystemLos scheduler -->
+        <feature>enterpriseBeansLite-4.0</feature>
+
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9081"/>
