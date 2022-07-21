@@ -1,4 +1,4 @@
-package io.openliberty.guides.system.scheduler;
+package io.openliberty.guides.frontend.scheduler;
 // tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2022 IBM Corporation and others.
@@ -10,7 +10,6 @@ package io.openliberty.guides.system.scheduler;
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-
 
 import java.io.IOException;
 import java.net.URI;

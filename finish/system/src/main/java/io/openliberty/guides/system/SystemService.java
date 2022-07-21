@@ -30,9 +30,9 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/systemLoad",
-                decoders = {SystemLoadDecoder.class},
-                encoders = {SystemLoadEncoder.class})
+@ServerEndpoint( value = "/systemLoad",
+                 decoders = { SystemLoadDecoder.class },
+                 encoders = { SystemLoadEncoder.class } )
 public class SystemService {
 
     private static Set<Session> sessions = new HashSet<>();
