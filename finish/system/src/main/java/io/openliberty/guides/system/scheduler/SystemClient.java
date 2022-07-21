@@ -43,12 +43,13 @@ public class SystemClient {
     }
 
     @OnMessage
-    public void onMessage(String message, Session userSession) throws Exception {
-        // do nothing
+    public void onMessage(String message, Session session) throws Exception {
+    	System.out.print("Scheduler received message from the server: " + message);
     }
 
     public void sendMessage(String message) {
         session.getAsyncRemote().sendText(message);
+        System.out.print("Scheduler sent message \"" + message + "\" to the server.");
     }
 
     public void close() {
