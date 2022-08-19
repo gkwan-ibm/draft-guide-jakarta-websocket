@@ -43,31 +43,6 @@ The application you will build in this guide consists of a frontend service and 
 
 In this guide, you will set up the load schedule to push the messages to the Jakarta WebSocket server. You will also set up the server which in turn is responsible for broadcasting messages to all the clients. Finally, you will configure the client in the frontend service to subscribe to these messages, consume them, and display them in the UI.
 
-=== What is SSE?
-
-Server-Sent Events is an API that allows clients to subscribe to a stream of events that is pushed from a server. First, the client makes a connection with the server over HTTP. The server continuously pushes events to the client as long as the connection persists. SSE differs from traditional HTTP requests, which use one request for one response. SSE also differs from Web Sockets in that SSE is unidirectional from the server to the client, and Web Sockets allow for bidirectional communication.
-
-For example, an application that provides real-time stock quotes might use SSE to push price updates from the server to the browser as soon as the server receives them. Such an application wouldn't need Web Sockets because the data travels in only one direction, and polling the server by using HTTP requests wouldn't provide real-time updates.
-
-The application that you will build in this guide consists of a `frontend` service, a `bff` (backend for frontend) service, and three instances of a `system` service. The `system` services periodically publish messages that contain their hostname and current system load. The `bff` service receives the messages from the `system` services and pushes the contents as SSE to a JavaScript client in the `frontend` service. This client uses the events to update a table in the UI that displays each system's hostname and its periodically updating load. The following diagram depicts the application that is used in this guide:
-
-image::SSE_Diagram.png[SSE Diagram, align="center"]
-
-In this guide, you will set up the `bff` service by creating an endpoint that clients can use to subscribe to events. You will also enable the service to read from the reactive messaging channel and push the contents to subscribers via SSE. After that, you will configure the Kafka connectors to allow the `bff` service to receive messages from the `system` services. Finally, you will configure the client in the `frontend` service to subscribe to these events, consume them, and display them in the UI.
-
-To learn more about the reactive Java services that are used in this guide, check out the https://openliberty.io/guides/microprofile-reactive-messaging.html[Creating reactive Java microservices^] guide.
-
-
-// =================================================================================================
-// Prerequisites
-// =================================================================================================
-
-== Additional prerequisites
-
-You will build and run the services in Docker containers. You can learn more about containerizing services with Docker in the https://openliberty.io/guides/containerize.html[Containerizing microservices^] guide.
-
-Install Docker and start your Docker environment by following https://docs.docker.com/engine/installation[the instructions from Docker^].
-
 
 // =================================================================================================
 // Getting started
@@ -82,8 +57,11 @@ include::{common-includes}/gitclone.adoc[]
 
 == The fastest way to work through this guide is to clone the Git repository and use the projects that are provided inside:
 
+[role='command']
+```
 git clone {URL}
 cd guide-jakarta-websocket
+```
 
 The start directory contains the starting project that you will build upon. 
 
@@ -109,10 +87,12 @@ include::finish/bff/src/main/java/io/openliberty/guides/bff/BFFResource.java[]
 The finish directory in the root of this guide contains the finished application. Give it a try before you proceed. 
 
 To try out the application, first go to the finish directory and run the following Maven goal to build the application and deploy it to Open Liberty:
-
+[role='command']
+```
 cd finish 
 mvn -pl system liberty:run
 mvn -pl frontend liberty:run
+```
 
 After you see the following message, your application server is ready:
 
@@ -122,7 +102,10 @@ Check out the service at the http://locahost:9080/ URL. See that the table is be
 
 After you are finished checking out the application, stop the Open Liberty server by pressing CTRL+C in the command-line session where you ran the server. Alternatively, you can run the liberty:stop goal from the finish directory in another shell session:
 
+[role='command']
+```
 mvn liberty:stop
+```
 
 // =================================================================================================
 // Creating the Jakarta WebSocket
