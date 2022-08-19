@@ -1,0 +1,301 @@
+//  Copyright (c) 2020, 2022 IBM Corporation and others.
+// Licensed under Creative Commons Attribution-NoDerivatives
+// 4.0 International (CC BY-ND 4.0)
+//   https://creativecommons.org/licenses/by-nd/4.0/
+//
+// Contributors:
+//     IBM Corporation
+//
+:projectid: reactive-messaging-sse
+:page-layout: guide-multipane
+:page-duration: 30 minutes
+:page-releasedate: 2020-12-08
+:page-guide-category: microprofile
+:page-essential: false
+:page-description: Learn how to push Server-Sent Events from a reactive messaging application to a front-end client
+:guide-author: Open Liberty
+:page-tags: ['MicroProfile', 'Jakarta EE']
+:page-related-guides: ['microprofile-reactive-messaging', 'microprofile-reactive-messaging-acknowledgment', 'microprofile-reactive-messaging-rest-integration', 'reactive-service-testing', 'containerize']
+:page-permalink: /guides/{projectid}
+:imagesdir: /img/guide/{projectid}
+:page-seo-title: Streaming updates from a MicroProfile Reactive Messaging microservice using Server-Sent Events (SSE)
+:page-seo-description: A getting started tutorial with examples on how to stream updates as Server-Sent Events (SSE) to a front-end client from a cloud-native Java application using Jakarta RESTful Web Services (JAX-RS; formerly Java API for RESTful Web Services) and MicroProfile Reactive Messaging API.
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
+:source-highlighter: prettify
+= Streaming updates to a client using Server-Sent Events
+
+[.hidden]
+NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
+
+Learn how to stream updates from a MicroProfile Reactive Messaging service to a front-end client by using Server-Sent Events (SSE).
+
+// =================================================================================================
+//  What you'll learn
+// =================================================================================================
+
+== What you'll learn
+
+You will learn how to stream messages from a Server Endpoint to a front end client endpoint using Jakarta WebSockets. 
+
+A Jakarta WebSocket enables dual communication between a server and endpoint. First, the client makes a connection over the server using HTTP. The server sends messages to the client at regular intervals of time. WebSockets differ from Server-Sent Events in that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth. 
+
+The application you will build in this guide consists of a frontend service and a system service. The scheduler sends messages to the Jakarta WebSocket server every 10 seconds. The messages are then broadcasted from the Jakarta WebSocket server to the front end service. The following diagram depicts the application that is used in this guide. 
+
+In this guide, you will set up the load schedule to push the messages to the Jakarta WebSocket server. You will also set up the server which in turn is responsible for broadcasting messages to all the clients. Finally, you will configure the client in the frontend service to subscribe to these messages, consume them, and display them in the UI.
+
+=== What is SSE?
+
+Server-Sent Events is an API that allows clients to subscribe to a stream of events that is pushed from a server. First, the client makes a connection with the server over HTTP. The server continuously pushes events to the client as long as the connection persists. SSE differs from traditional HTTP requests, which use one request for one response. SSE also differs from Web Sockets in that SSE is unidirectional from the server to the client, and Web Sockets allow for bidirectional communication.
+
+For example, an application that provides real-time stock quotes might use SSE to push price updates from the server to the browser as soon as the server receives them. Such an application wouldn't need Web Sockets because the data travels in only one direction, and polling the server by using HTTP requests wouldn't provide real-time updates.
+
+The application that you will build in this guide consists of a `frontend` service, a `bff` (backend for frontend) service, and three instances of a `system` service. The `system` services periodically publish messages that contain their hostname and current system load. The `bff` service receives the messages from the `system` services and pushes the contents as SSE to a JavaScript client in the `frontend` service. This client uses the events to update a table in the UI that displays each system's hostname and its periodically updating load. The following diagram depicts the application that is used in this guide:
+
+image::SSE_Diagram.png[SSE Diagram, align="center"]
+
+In this guide, you will set up the `bff` service by creating an endpoint that clients can use to subscribe to events. You will also enable the service to read from the reactive messaging channel and push the contents to subscribers via SSE. After that, you will configure the Kafka connectors to allow the `bff` service to receive messages from the `system` services. Finally, you will configure the client in the `frontend` service to subscribe to these events, consume them, and display them in the UI.
+
+To learn more about the reactive Java services that are used in this guide, check out the https://openliberty.io/guides/microprofile-reactive-messaging.html[Creating reactive Java microservices^] guide.
+
+
+// =================================================================================================
+// Prerequisites
+// =================================================================================================
+
+== Additional prerequisites
+
+You will build and run the services in Docker containers. You can learn more about containerizing services with Docker in the https://openliberty.io/guides/containerize.html[Containerizing microservices^] guide.
+
+Install Docker and start your Docker environment by following https://docs.docker.com/engine/installation[the instructions from Docker^].
+
+
+// =================================================================================================
+// Getting started
+// =================================================================================================
+[role='command']
+include::{common-includes}/gitclone.adoc[]
+
+
+// =================================================================================================
+// Getting started
+// =================================================================================================
+
+== The fastest way to work through this guide is to clone the Git repository and use the projects that are provided inside:
+
+git clone {URL}
+cd guide-jakarta-websocket
+
+The start directory contains the starting project that you will build upon. 
+
+The finish directory contains the finished project you will build. 
+
+Navigate to the `start` directory to begin.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the BFFResource class.#
+`bff/src/main/java/io/openliberty/guides/bff/BFFResource.java`
+----
+
+// File 0
+BFFResource.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/bff/src/main/java/io/openliberty/guides/bff/BFFResource.java[]
+----
+
+=== Try what you’ll build
+
+The finish directory in the root of this guide contains the finished application. Give it a try before you proceed. 
+
+To try out the application, first go to the finish directory and run the following Maven goal to build the application and deploy it to Open Liberty:
+
+cd finish 
+mvn -pl system liberty:run
+mvn -pl frontend liberty:run
+
+After you see the following message, your application server is ready:
+
+The defaultServer is ready to run a smarter planet. 
+
+Check out the service at the http://locahost:9080/ URL. See that the table is being updated for every 10 seconds. 
+
+After you are finished checking out the application, stop the Open Liberty server by pressing CTRL+C in the command-line session where you ran the server. Alternatively, you can run the liberty:stop goal from the finish directory in another shell session:
+
+mvn liberty:stop
+
+// =================================================================================================
+// Creating the Jakarta WebSocket
+// =================================================================================================
+
+== Creating the Jakarta WebSocket
+
+Navigate to the start directory to begin. 
+
+cd start
+
+In this section, you will create the Jakarta WebSocket responsible for receiving messages from the scheduler every 10 seconds and broadcasting these messages to the frontend UI. The system service consists of three classes i.e SystemService.java, SystemLoadEncoder.java and SystemLoadDecoder.java
+
+When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
+
+mvn liberty:dev
+
+After you see the following message, your application server in dev mode is ready:
+
+**************************************************
+*     Liberty is running in dev mode. 
+
+First, to create the WebSocket server, you will create the WebSocket endpoint using the @ServerEndpoint annotation. This configures the SystemService class as a WebSocket endpoint. Furthermore, you will also define the lifecycle of different phases like establishing a connection, sending a message during the connection and closing the connection. This is achieved by the @OnOpen, @OnMessage and @OnClose annotation respectively. There is also the @OnError annotation which is responsible for tackling the scenario in which the server is unable to establish a connection.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the microprofile-config.properties file.#
+`bff/src/main/resources/META-INF/microprofile-config.properties`
+----
+
+// File 0
+microprofile-config.properties
+[source, text, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/bff/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+Create the SystemService class. 
+
+system/src/main/java/io/openliberty/guides/system/SystemService.java
+
+
+From this class, it can be seen that the OnOpen, OnError and OnClose phases of the lifecycle are pretty straightforward. During the OnOpen phase, a message is displayed in the console stating that the server is connected to the session. Similarly, during in the OnClose phase, a message is displayed on the console stating that the sessions has been closed along with the reason. During @OnMessage phase, the message received from the server is displayed on the console. The loadAverage and memory usage is also calculated which are assigned to a JSON object and is sent to the session. Since the messages have to be sent as JSON objects, they have to encoded and decoded.
+
+Create the SystemLoadEncoder class
+
+system/src/main/java/io/openliberty/guides/system/SystemLoadEncoder.java
+
+This class is responsible for encoding a JSON object into a String.
+
+Create the SystemLoadDecoder class
+
+system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java
+
+This class decodes the String back into a JSON object. It also adds a check to see if the String can be decoded into JSON object and returns a boolean value of either true or false.
+
+Based on the functionalities discussed above, the features required in the server.xml are websocket-2.0 and jsonb-2.0. They can be added to the server.xml as follows:
+
+<featureManager>
+    <feature>websocket-2.0</feature> 
+    <feature>jsonb-2.0</feature>
+</featureManager>
+
+// =================================================================================================
+// Creating the frontend service
+// =================================================================================================
+
+== Creating the frontend service
+
+Navigate to the start directory to begin. 
+
+cd start
+
+In this section, you will configure the client in the frontend service to subscribe to events and display their contents in a UI. 
+
+The front-end UI is a table where each row contains the time, system load and the memory usage od the system service. The HTML and styling for the UI is provided for you but you must populate the table with information that is received from the server. 
+
+When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
+
+mvn liberty:dev
+
+After you see the following message, your application server in dev mode is ready:
+
+**************************************************
+*     Liberty is running in dev mode.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the index.js file.#
+`frontend/src/main/webapp/js/index.js`
+----
+
+// File 0
+index.js
+[source, javascript, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/frontend/src/main/webapp/js/index.js[]
+----
+
+Create the SystemClient class.
+
+Connection to a WebSocket endpoint can be established using the @ClientEndpoint annotation. You can use the same lifecycle annotations that were used in the server endpoint such as @OnOpen and @OnMessage. The WebSocket container class here is used to connect to a specified URL. 
+
+system/src/main/java/io/openliberty/guides/frontend/SystemClientjava
+
+Create the SystemLoadScheduler class.
+
+As discussed previously, the WebSocket server picks up messages from the scheduler every 10 seconds and broadcasts it to all the frontend clients. 
+
+The init functions defines an object of the SystemClient class and establishes a connection between it and “ws://localhost:9081/systemLoad”
+
+The sendSystemLoad sends a random String from {loadAverage, memoryUsage, both} to the Websocket server. 
+
+Finally, the close function closes the connection between client and localhost. 
+
+Create the index.html class.
+
+The latest version of most modern web browsers support Jakarta Web Sockets with the exception of Internet Explorer. 
+
+src/main/index.html
+
+The onopen and onerror functions are responsible for logging the events in the console where as the onmessage event is responsible for adding a row when the loadAverage and the memoryUsage is sent from the server. 
+
+// =================================================================================================
+// Running the application
+// =================================================================================================
+
+== Running the application
+
+Once your application is up and running, open your browser and check out your frontend service by going to http://localhost:9080. 
+
+Visit http://localhost:9080 again on a different browser and verify that both the UI sessions are being updated every 10 seconds. 
+
+Stop the frontend dev server by pressing CTRL+C or by typing q followed by the enter/return key. 
+
+// =================================================================================================
+// Testing the application
+// =================================================================================================
+
+== Testing the application
+
+Create the SystemClient class.
+
+src/test/java/it/io/openliberty/guides/system/SystemClient.java
+
+The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as @OnOpen and @OnMessage. The WebSocket container class here is used to connect to a specified URL. During the @OnMessage lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
+
+Create the SystemServiceIT class 
+
+There are two tests that have to be created within this class to ensure correct functionality of the WebSocket application. The testSystem method initializes a count down latch followed by establishing a connection to the ws://localhost:9081/systemLoad URI. The client then sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
+
+Similarly, for the testSystemMultipleSessions initializes 3 instances of SystemClient out of which one sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
+// =================================================================================================
+// Great work! You're done!
+// =================================================================================================
+
+== Great work! You're done!
+
+You developed an application that subscribes to Server-Sent Events by using MicroProfile Reactive Messaging, Open Liberty, and Kafka.
+
+== Related Links
+
+Learn more about MicroProfile.
+
+https://microprofile.io/[See the MicroProfile specs^]
+
+https://openliberty.io/docs/ref/microprofile[View the MicroProfile API^]
+
+https://download.eclipse.org/microprofile/microprofile-reactive-messaging-1.0/microprofile-reactive-messaging-spec.html#_microprofile_reactive_messaging[View the MicroProfile Reactive Messaging Specification^]
+
+https://openliberty.io/docs/ref/javaee/8/#package=javax/ws/rs/sse/package-frame.html&class=javax/ws/rs/sse/package-summary.html[View the JAX-RS Server-Sent Events API^]
+
+https://html.spec.whatwg.org/multipage/server-sent-events.html[View the Server-Sent Events HTML Specification^]
+
+include::{common-includes}/attribution.adoc[subs="attributes"]
+
