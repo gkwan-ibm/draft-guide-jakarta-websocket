@@ -308,6 +308,31 @@ include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemServi
 There are two tests that have to be created within this class to ensure correct functionality of the WebSocket application. The testSystem method initializes a count down latch followed by establishing a connection to the ws://localhost:9081/systemLoad URI. The client then sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
 
 Similarly, for the testSystemMultipleSessions initializes 3 instances of SystemClient out of which one sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
+
+[role=command]
+include::{common-includes}/devmode-test.adoc[]
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.system.SystemServiceIT
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.247 s - in it.io.openliberty.guides.system.SystemServiceIT
+
+Results:
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+----
+
+When you are done checking out the services, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `frontend` services,  or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `frontend` services:
+
+[role="command"]
+----
+mvn -pl system liberty:stop
+mvn -pl frontend liberty:stop
+----
+
 // =================================================================================================
 // Great work! You're done!
 // =================================================================================================
