@@ -53,7 +53,7 @@ The fastest way to work through this guide is to clone the Git repository and us
 
 [role='command']
 ```
-git clone {URL}
+git clone https://github.com/gkwan-ibm/draft-guide-jakarta-websocket.git
 cd guide-jakarta-websocket
 ```
 
