@@ -272,7 +272,7 @@ The latest version of most modern web browsers support Jakarta Web Sockets with 
 ----
 
 // File 0
-index.js
+index.html
 [source, javascript, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/frontend/src/main/webapp/index.html[]
@@ -298,8 +298,6 @@ Stop the frontend dev server by pressing CTRL+C or by typing q followed by the e
 
 == Testing the application
 
-Create the SystemClient class.
-
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the SystemClient class.#
@@ -310,24 +308,22 @@ Create the SystemClient class.
 SystemClient.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/system/src/main/java/io/openliberty/guides/frontend/SystemClient.java[]
+include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemClient.java[]
 ----
 
 The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as @OnOpen and @OnMessage. The WebSocket container class here is used to connect to a specified URL. During the @OnMessage lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
 
-Create the SystemServiceIT class 
-
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the SystemServiceIT class.#
-`system/src/test/java/it/io/openliberty/guides/system/SystemClient.java`
+`system/src/test/java/it/io/openliberty/guides/system/SystemServiceIT.java`
 ----
 
 // File 0
 SystemServiceIT.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/system/src/main/java/io/openliberty/guides/frontend/SystemServiceIT.java[]
+include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemServiceIT.java[]
 ----
 
 There are two tests that have to be created within this class to ensure correct functionality of the WebSocket application. The testSystem method initializes a count down latch followed by establishing a connection to the ws://localhost:9081/systemLoad URI. The client then sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
