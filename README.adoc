@@ -6,7 +6,7 @@
 // Contributors:
 //     IBM Corporation
 //
-:projectid: reactive-messaging-sse
+:projectid: jakarta-websocket
 :page-layout: guide-multipane
 :page-duration: 30 minutes
 :page-releasedate: 2020-12-08
@@ -18,8 +18,8 @@
 :page-related-guides: ['microprofile-reactive-messaging', 'microprofile-reactive-messaging-acknowledgment', 'microprofile-reactive-messaging-rest-integration', 'reactive-service-testing', 'containerize']
 :page-permalink: /guides/{projectid}
 :imagesdir: /img/guide/{projectid}
-:page-seo-title: Streaming updates from a MicroProfile Reactive Messaging microservice using Server-Sent Events (SSE)
-:page-seo-description: A getting started tutorial with examples on how to stream updates as Server-Sent Events (SSE) to a front-end client from a cloud-native Java application using Jakarta RESTful Web Services (JAX-RS; formerly Java API for RESTful Web Services) and MicroProfile Reactive Messaging API.
+:page-seo-title: Streaming updates from a microservice using Jakarta WebSockets
+:page-seo-description: A getting started tutorial with examples on how to stream updates to a front-end client from a cloud-native Java application using Jakarta RESTful Web Services (JAX-RS; formerly Java API for RESTful Web Services) and Jakarta WebSockets.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 = Streaming updates to a client using Jakarta WebSockets
