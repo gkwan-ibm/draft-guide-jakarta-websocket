@@ -230,14 +230,14 @@ After you see the following message, your application server in dev mode is read
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the SystemClient class.#
-`system/src/main/java/io/openliberty/guides/frontend/SystemClient.java`
+`frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemClient.java`
 ----
 
 // File 0
 SystemClient.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/frontend/src/main/java/io/openliberty/guides/frontend/SystemClient.java[]
+include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemClient.java[]
 ----
 
 Connection to a WebSocket endpoint can be established using the @ClientEndpoint annotation. You can use the same lifecycle annotations that were used in the server endpoint such as @OnOpen and @OnMessage. The WebSocket container class here is used to connect to a specified URL. 
@@ -245,14 +245,14 @@ Connection to a WebSocket endpoint can be established using the @ClientEndpoint 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the SystemLoadScheduler class.#
-`frontend/src/main/java/io/openliberty/guides/frontend/SystemLoadScheduler.java`
+`frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemLoadScheduler.java`
 ----
 
 // File 0
 SystemLoadScheduler.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/frontend/src/main/java/io/openliberty/guides/frontend/SystemLoadScheduler.java[]
+include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemLoadScheduler.java[]
 ----
 
 As discussed previously, the WebSocket server picks up messages from the scheduler every 10 seconds and broadcasts it to all the frontend clients. 
