@@ -12,7 +12,7 @@
 :page-releasedate: 2020-12-08
 :page-guide-category: microprofile
 :page-essential: false
-:page-description: Learn how to push Server-Sent Events from a reactive messaging application to a front-end client
+:page-description: Learn how to stream updates from a system service to a front-end client by using Jakarta WebSockets.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Jakarta EE']
 :page-related-guides: ['microprofile-reactive-messaging', 'microprofile-reactive-messaging-acknowledgment', 'microprofile-reactive-messaging-rest-integration', 'reactive-service-testing', 'containerize']
@@ -327,7 +327,7 @@ Similarly, for the testSystemMultipleSessions initializes 3 instances of SystemC
 
 == Great work! You're done!
 
-You developed an application that subscribes to Server-Sent Events by using MicroProfile Reactive Messaging, Open Liberty, and Kafka.
+You developed an application that subscribes to real time updates by using Jakarta WebSockets and Open Liberty.
 
 == Related Links
 
