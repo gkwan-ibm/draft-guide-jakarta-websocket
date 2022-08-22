@@ -61,21 +61,6 @@ The start directory contains the starting project that you will build upon.
 
 The finish directory contains the finished project you will build. 
 
-Navigate to the `start` directory to begin.
-
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Create the SystemService class.#
-`system/src/main/java/io/openliberty/guides/system/SystemService.java`
-----
-
-// File 0
-SystemService.java
-[source, java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
-----
-
 === Try what you’ll build
 
 The finish directory in the root of this guide contains the finished application. Give it a try before you proceed. 
