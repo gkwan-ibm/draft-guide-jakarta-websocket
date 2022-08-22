@@ -55,7 +55,7 @@ include::{common-includes}/gitclone.adoc[]
 // Getting started
 // =================================================================================================
 
-== The fastest way to work through this guide is to clone the Git repository and use the projects that are provided inside:
+The fastest way to work through this guide is to clone the Git repository and use the projects that are provided inside:
 
 [role='command']
 ```
@@ -71,15 +71,15 @@ Navigate to the `start` directory to begin.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the BFFResource class.#
-`bff/src/main/java/io/openliberty/guides/bff/BFFResource.java`
+#Create the SystemService class.#
+`system/src/main/java/io/openliberty/guides/system/SystemService.java`
 ----
 
 // File 0
-BFFResource.java
+SystemService.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/bff/src/main/java/io/openliberty/guides/bff/BFFResource.java[]
+include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
 ----
 
 === Try what you’ll build
@@ -95,8 +95,10 @@ mvn -pl frontend liberty:run
 ```
 
 After you see the following message, your application server is ready:
-
+[source, role="no_copy"]
+----
 The defaultServer is ready to run a smarter planet. 
+----
 
 Check out the service at the http://locahost:9080/ URL. See that the table is being updated for every 10 seconds. 
 
@@ -115,33 +117,42 @@ mvn liberty:stop
 
 Navigate to the start directory to begin. 
 
+[role='command']
+```
 cd start
+```
 
 In this section, you will create the Jakarta WebSocket responsible for receiving messages from the scheduler every 10 seconds and broadcasting these messages to the frontend UI. The system service consists of three classes i.e SystemService.java, SystemLoadEncoder.java and SystemLoadDecoder.java
 
 When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
 
+[role='command']
+```
 mvn liberty:dev
-
+```
 After you see the following message, your application server in dev mode is ready:
 
+[source, role="no_copy"]
+----
 **************************************************
-*     Liberty is running in dev mode. 
+*     Liberty is running in dev mode.
+----
 
 First, to create the WebSocket server, you will create the WebSocket endpoint using the @ServerEndpoint annotation. This configures the SystemService class as a WebSocket endpoint. Furthermore, you will also define the lifecycle of different phases like establishing a connection, sending a message during the connection and closing the connection. This is achieved by the @OnOpen, @OnMessage and @OnClose annotation respectively. There is also the @OnError annotation which is responsible for tackling the scenario in which the server is unable to establish a connection.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the microprofile-config.properties file.#
-`bff/src/main/resources/META-INF/microprofile-config.properties`
+#Create the SystemLoadEncoder class.#
+`system/src/main/java/io/openliberty/guides/system/SystemLoadEncoder.java`
 ----
 
 // File 0
-microprofile-config.properties
-[source, text, linenums, role='code_column hide_tags=copyright']
+SystemService.java
+[source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/bff/src/main/resources/META-INF/microprofile-config.properties[]
+include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadEncoder.java[]
 ----
+
 
 Create the SystemService class. 
 
@@ -158,16 +169,30 @@ This class is responsible for encoding a JSON object into a String.
 
 Create the SystemLoadDecoder class
 
-system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the SystemLoadDecoder class.#
+`system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java`
+----
+
+// File 0
+SystemLoadDecoder.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java[]
+----
 
 This class decodes the String back into a JSON object. It also adds a check to see if the String can be decoded into JSON object and returns a boolean value of either true or false.
 
 Based on the functionalities discussed above, the features required in the server.xml are websocket-2.0 and jsonb-2.0. They can be added to the server.xml as follows:
 
+[source, role="no_copy"]
+----
 <featureManager>
     <feature>websocket-2.0</feature> 
     <feature>jsonb-2.0</feature>
 </featureManager>
+----
 
 // =================================================================================================
 // Creating the frontend service
@@ -189,20 +214,23 @@ mvn liberty:dev
 
 After you see the following message, your application server in dev mode is ready:
 
+[source, role="no_copy"]
+----
 **************************************************
 *     Liberty is running in dev mode.
+----
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the index.js file.#
-`frontend/src/main/webapp/js/index.js`
+#Create the SystemClient class.#
+`system/src/main/java/io/openliberty/guides/frontend/SystemClient.java`
 ----
 
 // File 0
-index.js
-[source, javascript, linenums, role='code_column hide_tags=copyright']
+SystemClient.java
+[source, java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/frontend/src/main/webapp/js/index.js[]
+include::finish/system/src/main/java/io/openliberty/guides/frontend/SystemClient.java[]
 ----
 
 Create the SystemClient class.
@@ -212,6 +240,19 @@ Connection to a WebSocket endpoint can be established using the @ClientEndpoint 
 system/src/main/java/io/openliberty/guides/frontend/SystemClientjava
 
 Create the SystemLoadScheduler class.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the SystemLoadScheduler class.#
+`system/src/main/java/io/openliberty/guides/frontend/SystemLoadScheduler.java`
+----
+
+// File 0
+SystemLoadScheduler.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/system/src/main/java/io/openliberty/guides/frontend/SystemLoadScheduler.java[]
+----
 
 As discussed previously, the WebSocket server picks up messages from the scheduler every 10 seconds and broadcasts it to all the frontend clients. 
 
@@ -225,7 +266,18 @@ Create the index.html class.
 
 The latest version of most modern web browsers support Jakarta Web Sockets with the exception of Internet Explorer. 
 
-src/main/index.html
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the index.js file.#
+`frontend/src/main/webapp/js/index.js`
+----
+
+// File 0
+index.js
+[source, javascript, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/frontend/src/main/webapp/js/index.js[]
+----
 
 The onopen and onerror functions are responsible for logging the events in the console where as the onmessage event is responsible for adding a row when the loadAverage and the memoryUsage is sent from the server. 
 
@@ -249,11 +301,35 @@ Stop the frontend dev server by pressing CTRL+C or by typing q followed by the e
 
 Create the SystemClient class.
 
-src/test/java/it/io/openliberty/guides/system/SystemClient.java
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the SystemClient class.#
+`system/src/test/java/it/io/openliberty/guides/system/SystemClient.java`
+----
+
+// File 0
+SystemClient.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/system/src/main/java/io/openliberty/guides/frontend/SystemClient.java[]
+----
 
 The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as @OnOpen and @OnMessage. The WebSocket container class here is used to connect to a specified URL. During the @OnMessage lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
 
 Create the SystemServiceIT class 
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the SystemServiceIT class.#
+`system/src/test/java/it/io/openliberty/guides/system/SystemClient.java`
+----
+
+// File 0
+SystemServiceIT.java
+[source, java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/system/src/main/java/io/openliberty/guides/frontend/SystemServiceIT.java[]
+----
 
 There are two tests that have to be created within this class to ensure correct functionality of the WebSocket application. The testSystem method initializes a count down latch followed by establishing a connection to the ws://localhost:9081/systemLoad URI. The client then sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
 
