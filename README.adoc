@@ -27,7 +27,7 @@
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to stream updates from a MicroProfile Reactive Messaging service to a front-end client by using Server-Sent Events (SSE).
+Learn how to stream updates from a system service to a front-end client by using Jakarta WebSockets.
 
 // =================================================================================================
 //  What you'll learn
@@ -42,14 +42,6 @@ A Jakarta WebSocket enables dual communication between a server and endpoint. Fi
 The application you will build in this guide consists of a frontend service and a system service. The scheduler sends messages to the Jakarta WebSocket server every 10 seconds. The messages are then broadcasted from the Jakarta WebSocket server to the front end service. The following diagram depicts the application that is used in this guide. 
 
 In this guide, you will set up the load schedule to push the messages to the Jakarta WebSocket server. You will also set up the server which in turn is responsible for broadcasting messages to all the clients. Finally, you will configure the client in the frontend service to subscribe to these messages, consume them, and display them in the UI.
-
-
-// =================================================================================================
-// Getting started
-// =================================================================================================
-[role='command']
-include::{common-includes}/gitclone.adoc[]
-
 
 // =================================================================================================
 // Getting started
@@ -128,7 +120,7 @@ When you run OpenLiberty in development mode, known as dev mode, the server list
 
 [role='command']
 ```
-mvn liberty:dev
+mvn -pl system liberty:dev
 ```
 After you see the following message, your application server in dev mode is ready:
 
@@ -216,7 +208,7 @@ When you run OpenLiberty in development mode, known as dev mode, the server list
 
 [role='command']
 ```
-mvn liberty:dev
+mvn -pl frontend liberty:dev
 ```
 
 After you see the following message, your application server in dev mode is ready:
