@@ -30,9 +30,11 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
+// tag::serverEndpoint[]
 @ServerEndpoint( value = "/systemLoad",
                  decoders = { SystemLoadDecoder.class },
                  encoders = { SystemLoadEncoder.class } )
+// end::serverEndpoint[]                 
 public class SystemService {
 
     private static Set<Session> sessions = new HashSet<>();
@@ -53,13 +55,17 @@ public class SystemService {
         }
     }
 
+    // tag::onOpen[]
     @OnOpen
+    // end::onOpen[]
     public void onOpen(Session session) {
         System.out.println("Server connected to session: " + session.getId());
         sessions.add(session);
     }
     
+    // tag::onMessage[]
     @OnMessage
+    // end::onMessage[]
     public void onMessage(String option, Session session) {
         System.out.println("Server received message \"" + option + "\" " +
                            "from session: " + session.getId());
@@ -83,13 +89,17 @@ public class SystemService {
         }
     }
 
+    // tag ::onError[]
     @OnError
+    // end::onError[]
     public void onError(Session session, Throwable throwable) {
         System.out.println("WebSocket error for " + session.getId() + " " +
                            throwable.getMessage());
     }
 
+    // tag::onClose[]
     @OnClose
+    // end::onClose[]
     public void onClose(Session session, CloseReason closeReason) {
         System.out.println("Session " + session.getId() +
                            " was closed with reason " + closeReason.getCloseCode());

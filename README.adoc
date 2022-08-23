@@ -117,7 +117,7 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
-First, to create the WebSocket server, you will create the WebSocket endpoint using the @ServerEndpoint annotation. This configures the SystemService class as a WebSocket endpoint. Furthermore, you will also define the lifecycle of different phases like establishing a connection, sending a message during the connection and closing the connection. This is achieved by the @OnOpen, @OnMessage and @OnClose annotation respectively. There is also the @OnError annotation which is responsible for tackling the scenario in which the server is unable to establish a connection.
+First, to create the WebSocket server, you will create the WebSocket endpoint using the [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation. This configures the SystemService class as a WebSocket endpoint. Furthermore, you will also define the lifecycle of different phases like establishing a connection, sending a message during the connection and closing the connection. This is achieved by the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotation respectively. There is also the [hotspot=onError file=0]`@OnError` annotation which is responsible for tackling the scenario in which the server is unable to establish a connection.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -132,7 +132,7 @@ SystemService.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
 ----
 
-From this class, it can be seen that the OnOpen, OnError and OnClose phases of the lifecycle are pretty straightforward. During the OnOpen phase, a message is displayed in the console stating that the server is connected to the session. Similarly, during in the OnClose phase, a message is displayed on the console stating that the sessions has been closed along with the reason. During @OnMessage phase, the message received from the server is displayed on the console. The loadAverage and memory usage is also calculated which are assigned to a JSON object and is sent to the session. Since the messages have to be sent as JSON objects, they have to encoded and decoded.
+From this class, it can be seen that the `OnOpen`, `OnError` and `OnClose` phases of the lifecycle are pretty straightforward. During the `OnOpen` phase, a message is displayed in the console stating that the server is connected to the session. Similarly, during in the `OnClose` phase, a message is displayed on the console stating that the sessions has been closed along with the reason. During [hotspot=onMessage file=0]`@OnMessage` phase, the message received from the server is displayed on the console. The loadAverage and memory usage is also calculated which are assigned to a JSON object and is sent to the session. Since the messages have to be sent as JSON objects, they have to encoded and decoded.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -219,7 +219,7 @@ SystemClient.java
 include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemClient.java[]
 ----
 
-Connection to a WebSocket endpoint can be established using the @ClientEndpoint annotation. You can use the same lifecycle annotations that were used in the server endpoint such as @OnOpen and @OnMessage. The WebSocket container class here is used to connect to a specified URL. 
+Connection to a WebSocket endpoint can be established using the [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation. You can use the same lifecycle annotations that were used in the server endpoint such as [hotspot=onOpen file=0]`@OnOpen` and [hotspot=onMessage file=0]`@OnMessage`. The WebSocket container class here is used to connect to a specified URL. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -290,7 +290,7 @@ SystemClient.java
 include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemClient.java[]
 ----
 
-The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as @OnOpen and @OnMessage. The WebSocket container class here is used to connect to a specified URL. During the @OnMessage lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
+The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as [hotspot=onOpen file=0]`@OnOpen` and [hotspot=onMessage file=0]`@OnMessage`. The WebSocket container class here is used to connect to a specified URL. During the @OnMessage lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
