@@ -39,9 +39,9 @@ You will learn how to stream messages from a Server Endpoint to a front end clie
 
 A Jakarta WebSocket enables dual communication between a server and endpoint. First, the client makes a connection over the server using HTTP. The server sends messages to the client at regular intervals of time. WebSockets differ from Server-Sent Events in that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth. 
 
-The application you will build in this guide consists of a frontend service and a system service. The scheduler sends messages to the Jakarta WebSocket server every 10 seconds. The messages are then broadcasted from the Jakarta WebSocket server to the front end service. The following diagram depicts the application that is used in this guide. 
+The application you will build in this guide consists of a `frontend` service and a `system` service. The scheduler sends messages to the Jakarta WebSocket server every 10 seconds. The messages are then broadcasted from the Jakarta WebSocket server to the front end service. The following diagram depicts the application that is used in this guide. 
 
-In this guide, you will set up the load schedule to push the messages to the Jakarta WebSocket server. You will also set up the server which in turn is responsible for broadcasting messages to all the clients. Finally, you will configure the client in the frontend service to subscribe to these messages, consume them, and display them in the UI.
+In this guide, you will set up the load schedule to push the messages to the Jakarta WebSocket server. You will also set up the server which in turn is responsible for broadcasting messages to all the clients. Finally, you will configure the client in the `frontend` service to subscribe to these messages, consume them, and display them in the UI.
 
 // =================================================================================================
 // Getting started
@@ -101,7 +101,7 @@ Navigate to the `start` directory to begin.
 cd start
 ```
 
-In this section, you will create the Jakarta WebSocket responsible for receiving messages from the scheduler every 10 seconds and broadcasting these messages to the frontend UI. The system service consists of three classes i.e SystemService.java, SystemLoadEncoder.java and SystemLoadDecoder.java
+In this section, you will create the Jakarta WebSocket responsible for receiving messages from the scheduler every 10 seconds and broadcasting these messages to the `frontend` UI. The `system` service consists of three classes i.e SystemService.java, SystemLoadEncoder.java and SystemLoadDecoder.java
 
 When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
 
@@ -187,9 +187,9 @@ Navigate to the `start` directory to begin.
 cd start
 ```
 
-In this section, you will configure the client in the frontend service to subscribe to events and display their contents in a UI. 
+In this section, you will configure the client in the `frontend` service to subscribe to events and display their contents in a UI. 
 
-The front-end UI is a table where each row contains the time, system load and the memory usage od the system service. The HTML and styling for the UI is provided for you but you must populate the table with information that is received from the server. 
+The front-end UI is a table where each row contains the time, system load and the memory usage od the `system` service. The HTML and styling for the UI is provided for you but you must populate the table with information that is received from the server. 
 
 When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
 
@@ -234,7 +234,7 @@ SystemLoadScheduler.java
 include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemLoadScheduler.java[]
 ----
 
-As discussed previously, the WebSocket server picks up messages from the scheduler every 10 seconds and broadcasts it to all the frontend clients. 
+As discussed previously, the WebSocket server picks up messages from the scheduler every 10 seconds and broadcasts it to all the `frontend` clients. 
 
 The init functions defines an object of the SystemClient class and establishes a connection between it and “ws://localhost:9081/systemLoad”
 
@@ -265,11 +265,11 @@ The onopen and onerror functions are responsible for logging the events in the c
 
 == Running the application
 
-Once your application is up and running, open your browser and check out your frontend service by going to http://localhost:9080. 
+Once your application is up and running, open your browser and check out your `frontend` service by going to http://localhost:9080. 
 
 Visit http://localhost:9080 again on a different browser and verify that both the UI sessions are being updated every 10 seconds. 
 
-Stop the frontend dev server by pressing CTRL+C or by typing q followed by the enter/return key. 
+Stop the `frontend` dev server by pressing CTRL+C or by typing q followed by the enter/return key. 
 
 // =================================================================================================
 // Testing the application
