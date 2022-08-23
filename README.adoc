@@ -269,8 +269,6 @@ Once your application is up and running, open your browser and check out your `f
 
 Visit http://localhost:9080 again on a different browser and verify that both the UI sessions are being updated every 10 seconds. 
 
-Stop the `frontend` dev server by pressing CTRL+C or by typing q followed by the enter/return key. 
-
 // =================================================================================================
 // Testing the application
 // =================================================================================================
