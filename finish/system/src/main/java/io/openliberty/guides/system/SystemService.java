@@ -89,7 +89,7 @@ public class SystemService {
         }
     }
 
-    // tag ::onError[]
+    // tag::onError[]
     @OnError
     // end::onError[]
     public void onError(Session session, Throwable throwable) {

@@ -94,7 +94,7 @@ mvn liberty:stop
 
 == Creating the Jakarta WebSocket
 
-Navigate to the start directory to begin. 
+Navigate to the `start` directory to begin. 
 
 [role='command']
 ```
@@ -180,7 +180,7 @@ Based on the functionalities discussed above, the features required in the serve
 
 == Creating the frontend service
 
-Navigate to the start directory to begin. 
+Navigate to the `start` directory to begin. 
 
 [role='command']
 ```
