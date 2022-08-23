@@ -57,9 +57,9 @@ git clone https://github.com/gkwan-ibm/draft-guide-jakarta-websocket.git
 cd guide-jakarta-websocket
 ```
 
-The start directory contains the starting project that you will build upon. 
+The `start` directory contains the starting project that you will build upon. 
 
-The finish directory contains the finished project you will build. 
+The `finish` directory contains the finished project you will build. 
 
 === Try what you’ll build
 
@@ -290,7 +290,7 @@ SystemClient.java
 include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemClient.java[]
 ----
 
-The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as [hotspot=onOpen file=0]`@OnOpen` and [hotspot=onMessage file=0]`@OnMessage`. The WebSocket container class here is used to connect to a specified URL. During the @OnMessage lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
+The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as [hotspot=onOpen file=0]`@OnOpen` and [hotspot=onMessage file=0]`@OnMessage`. The WebSocket container class here is used to connect to a specified URL. During the `@OnMessage` lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
