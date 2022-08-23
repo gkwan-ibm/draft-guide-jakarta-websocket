@@ -163,10 +163,10 @@ Based on the functionalities discussed above, the features required in the `serv
 
 // File 1
 server.xml
-----
 [source, xml, linenums, role='code_column]
 ----
 include::finish/system/src/main/liberty/config/server.xml[]
+----
 
 // =================================================================================================
 // Creating the frontend service
