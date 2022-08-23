@@ -12,7 +12,7 @@
 :page-releasedate: 2020-12-08
 :page-guide-category: microprofile
 :page-essential: false
-:page-description: Learn how to stream updates from a system service to a front-end client by using Jakarta WebSockets.
+:page-description: Learn how to stream messages from a backend service to a front-end client by using Jakarta WebSockets.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Jakarta EE']
 :page-related-guides: ['microprofile-reactive-messaging', 'microprofile-reactive-messaging-acknowledgment', 'microprofile-reactive-messaging-rest-integration', 'reactive-service-testing', 'containerize']
@@ -22,7 +22,7 @@
 :page-seo-description: A getting started tutorial with examples on how to stream updates to a front-end client from a cloud-native Java application using Jakarta RESTful Web Services (JAX-RS; formerly Java API for RESTful Web Services) and Jakarta WebSockets.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-= Streaming updates to a client using Jakarta WebSockets
+= Streaming messages between client and server services using Jakarta WebSockets
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
@@ -35,9 +35,7 @@ Learn how to stream updates from a system service to a front-end client by using
 
 == What you'll learn
 
-You will learn how to stream messages from a Server Endpoint to a front end client endpoint using Jakarta WebSockets. 
-
-A Jakarta WebSocket enables dual communication between a server and endpoint. First, the client makes a connection over the server using HTTP. The server sends messages to the client at regular intervals of time. WebSockets differ from Server-Sent Events in that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth. 
+https://jakarta.ee/specifications/websocket/2.1/jakarta-websocket-spec-2.1.html[Jakarta WebSocket API^] enables dual communication between a server and endpoint. First, the client makes a connection over the server using HTTP. The server sends messages to the client at regular intervals of time. WebSockets differ from Server-Sent Events in that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth. 
 
 The application you will build in this guide consists of a `frontend` service and a `system` service. The scheduler sends messages to the Jakarta WebSocket server every 10 seconds. The messages are then broadcasted from the Jakarta WebSocket server to the front end service. The following diagram depicts the application that is used in this guide. 
 
@@ -96,11 +94,6 @@ mvn liberty:stop
 
 Navigate to the `start` directory to begin. 
 
-[role='command']
-```
-cd start
-```
-
 In this section, you will create the Jakarta WebSocket responsible for receiving messages from the scheduler every 10 seconds and broadcasting these messages to the `frontend` UI. The `system` service consists of three classes i.e SystemService.java, SystemLoadEncoder.java and SystemLoadDecoder.java
 
 When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
@@ -117,7 +110,7 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
-First, to create the WebSocket server, you will create the WebSocket endpoint using the [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation. This configures the SystemService class as a WebSocket endpoint. Furthermore, you will also define the lifecycle of different phases like establishing a connection, sending a message during the connection and closing the connection. This is achieved by the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotation respectively. There is also the [hotspot=onError file=0]`@OnError` annotation which is responsible for tackling the scenario in which the server is unable to establish a connection.
+The system service is responsible for handling the messages produced by the scheduler and forwarding them to the front-end client. This can be achieved by configuring the system service as a WebSocket endpoint.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -132,7 +125,9 @@ SystemService.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
 ----
 
-From this class, it can be seen that the `OnOpen`, `OnError` and `OnClose` phases of the lifecycle are pretty straightforward. During the `OnOpen` phase, a message is displayed in the console stating that the server is connected to the session. Similarly, during in the `OnClose` phase, a message is displayed on the console stating that the sessions has been closed along with the reason. During [hotspot=onMessage file=0]`@OnMessage` phase, the message received from the server is displayed on the console. The loadAverage and memory usage is also calculated which are assigned to a JSON object and is sent to the session. Since the messages have to be sent as JSON objects, they have to encoded and decoded.
+The service can be configured as an endpoint using the [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation. Within this class, you will also define the lifecycle of different phases like establishing a connection, sending a message during the connection and closing the connection. This is achieved by the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotation respectively. There is also the [hotspot=onError file=0]`@OnError` annotation which is responsible for tackling the scenario in which the server is unable to establish a connection.
+
+During the `OnOpen` phase, a message is displayed in the console stating that the server is connected to the session. Similarly, during in the `OnClose` phase, a message is displayed on the console stating that the sessions has been closed along with the reason. During `OnMessage` phase, the message received from the server is displayed on the console. Since the messages have to be sent as JSON objects, they have to encoded and decoded.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -147,7 +142,7 @@ SystemLoadEncoder.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadEncoder.java[]
 ----
 
-This class is responsible for encoding a JSON object into a String.
+This class is responsible for accepting a String input and then returning the same String value as a JSON object.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -164,15 +159,13 @@ include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadDeco
 
 This class decodes the String back into a JSON object. It also adds a check to see if the String can be decoded into JSON object and returns a boolean value of either true or false.
 
-Based on the functionalities discussed above, the features required in the server.xml are websocket-2.0 and jsonb-2.0. They can be added to the server.xml as follows:
+Based on the functionalities discussed above, the features required in the `server.xml` are [hotspot=webSocket file=0]`websocket-2.0` and [hotspot=jsonB file=0]`jsonb-2.0`.
 
-[source, role="no_copy"]
+// File 0
+server.xml
+[source, xml, linenums, role='code_column hide_tags=copyright']
 ----
-<featureManager>
-    <feature>websocket-2.0</feature> 
-    <feature>jsonb-2.0</feature>
-</featureManager>
-----
+include::finish/system/src/main/liberty/config/server.xml[]
 
 // =================================================================================================
 // Creating the frontend service
