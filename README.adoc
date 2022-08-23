@@ -159,9 +159,9 @@ include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadDeco
 
 This class decodes the String back into a JSON object. It also adds a check to see if the String can be decoded into JSON object and returns a boolean value of either true or false.
 
-Based on the functionalities discussed above, the features required in the `server.xml` are [hotspot=webSocket file=0]`websocket-2.0` and [hotspot=jsonB file=0]`jsonb-2.0`.
+Based on the functionalities discussed above, the features required in the `server.xml` are [hotspot=webSocket file=1]`websocket-2.0` and [hotspot=jsonB file=1]`jsonb-2.0`.
 
-// File 0
+// File 1
 server.xml
 [source, xml, linenums, role='code_column hide_tags=copyright']
 ----
