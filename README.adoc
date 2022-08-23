@@ -41,6 +41,8 @@ The application you will build in this guide consists of a `frontend` service an
 
 In this guide, you will set up the load schedule to push the messages to the Jakarta WebSocket server. You will also set up the server which in turn is responsible for broadcasting messages to all the clients. Finally, you will configure the client in the `frontend` service to subscribe to these messages, consume them, and display them in the UI.
 
+image::architecture.png[Jakarta Websocket application architecture where system service uses Websocket API to connect and send messages to a front-end client. align="center"]
+
 // =================================================================================================
 // Getting started
 // =================================================================================================
@@ -175,11 +177,6 @@ Based on the functionalities discussed above, the features required in the `serv
 == Creating the frontend service
 
 Navigate to the `start` directory to begin. 
-
-[role='command']
-```
-cd start
-```
 
 In this section, you will configure the client in the `frontend` service to subscribe to events and display their contents in a UI. 
 
