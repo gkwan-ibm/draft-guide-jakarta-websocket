@@ -23,6 +23,7 @@ import jakarta.websocket.Decoder;
 public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
 
     @Override
+    // tag::decode[]
     public JsonObject decode(String s) throws DecodeException {
         try (JsonReader reader = Json.createReader(new StringReader(s))) {
             return reader.readObject();
@@ -32,9 +33,11 @@ public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
                     .build();
             return error;
         }
+    // end::decode[]    
     }
 
     @Override
+    // tag::willDecode[]
     public boolean willDecode(String s) {
         try (JsonReader reader = Json.createReader(new StringReader(s))) {
             reader.readObject();
@@ -42,6 +45,7 @@ public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
         } catch (Exception e) {
             return false;
         }
+    // end::willDecode[]    
     }
 
 }
