@@ -131,13 +131,13 @@ The service can be configured as an endpoint using the [hotspot=serverEndpoint f
 
 During the `OnOpen` phase, a message is displayed in the console stating that the server is connected to the session. Similarly, during in the `OnClose` phase, a message is displayed on the console stating that the sessions has been closed along with the reason. During `OnMessage` phase, the message received from the server is displayed on the console. Since the messages have to be sent as JSON objects, they have to encoded and decoded.
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the SystemLoadEncoder class.#
 `system/src/main/java/io/openliberty/guides/system/SystemLoadEncoder.java`
 ----
 
-// File 0
+// File 1
 SystemLoadEncoder.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -146,13 +146,13 @@ include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadEnco
 
 This class is responsible for accepting a String input and then returning the same String value as a JSON object.
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the SystemLoadDecoder class.#
 `system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java`
 ----
 
-// File 0
+// File 2
 SystemLoadDecoder.java
 [source, java, linenums, role='code_column hide_tags=copyright']
 ----
@@ -161,14 +161,14 @@ include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadDeco
 
 This class decodes the String back into a JSON object. It also adds a check to see if the String can be decoded into JSON object and returns a boolean value of either true or false.
 
-// File 1
+// File 3
 server.xml
 [source, xml, linenums, role='code_column']
 ----
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-Based on the functionalities discussed above, the features required in the `server.xml` are [hotspot=webSocket file=1]`websocket-2.0` and [hotspot=jsonB file=1]`jsonb-2.0`.
+Based on the functionalities discussed above, the features required in the `server.xml` are [hotspot=webSocket file=3]`websocket-2.0` and [hotspot=jsonB file=3]`jsonb-2.0`.
 
 // =================================================================================================
 // Creating the frontend service
