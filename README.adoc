@@ -22,7 +22,7 @@
 :page-seo-description: A getting started tutorial with examples on how to stream messages to communicate front-end clients and a cloud-native Java application by using Jakarta WebSockets APIs.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-= Streaming messages between server service and clients using Jakarta WebSockets
+= Streaming messages between server and clients using Jakarta WebSockets
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
@@ -41,7 +41,7 @@ The application you will build in this guide consists of a `system` server servi
 
 image::architecture.png[Application architecture where system and client services uses Jakarta Websockets API to connect and communicate. align="center"]
 
-You'll learn how to use Jakarta Websockets API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScrpt `WebSocket` object in HTML file to build websocket connenction, subscribes on different events, and displays the broadcasting messages from the `system` service in the table.
+You'll learn how to use Jakarta Websockets API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScrpt `WebSocket` object in HTML file to build websocket connenction, subscribes on different events, and displays the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
