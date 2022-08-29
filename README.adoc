@@ -65,7 +65,7 @@ The `finish` directory contains the finished project you will build.
 
 The `finish` directory in the root of this guide contains the finished application. Give it a try before you proceed. 
 
-To try out the application, first go to the finish directory and run the following Maven goal to start the `system` service the application and deploy it to Open Liberty:
+To try out the application, go to the finish directory and run the following Maven goal to build the `system` service and deploy it to Open Liberty:
 
 [role='command']
 ```
@@ -73,44 +73,54 @@ mvn -pl system liberty:run
 
 ```
 
-Next, open another command-line session and start the `frontend` service using the following command:
+Next, open another command-line session and run the following command to start the `frontend` service:
 
 [role='command']
 ```
 mvn -pl frontend liberty:run
 ```
 
-After you see the following message, your application server is ready:
+After you see the following message in both command-line sessions, both your services are ready.
+
 [source, role="no_copy"]
 ----
 The defaultServer is ready to run a smarter planet. 
 ----
 
-Check out the service at the http://locahost:9080/ URL. See that the table is being updated for every 10 seconds. 
+Check out the service at the http://locahost:9080 URL. See that the table is being updated for every 10 seconds. 
 
-After you are finished checking out the application, stop the Open Liberty server by pressing CTRL+C in the command-line session where you ran the server. Alternatively, you can run the liberty:stop goal from the finish directory in another shell session:
+After you are finished checking out the application, stop both the `system` and `frontend` services by pressing `CTRL+C` in the command-line sessions where you ran them. Alternatively, you can run the following goals from the `finish` directory in another command-line session:
 
 [role='command']
-```
-mvn liberty:stop
-```
+----
+mvn -pl system liberty:stop
+mvn -pl frontend liberty:stop
+----
 
 // =================================================================================================
-// Creating the Jakarta WebSocket
+// Creating the WebSocket server service
 // =================================================================================================
 
-== Creating the Jakarta WebSocket
+== Creating the WebSocket server service
 
-Navigate to the `start` directory to begin. 
+Navigate to the `start` directory to begin.
 
-In this section, you will create the Jakarta WebSocket responsible for receiving messages from the scheduler every 10 seconds and broadcasting these messages to the `frontend` UI. The `system` service consists of three classes i.e SystemService.java, SystemLoadEncoder.java and SystemLoadDecoder.java
+// cloud-hosted guide instructions:
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/draft-guide-jakarta-websocket/start
+```
+endif::[]
 
-When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
+In this section, you will create the WebSocket `system` service that broadcasts messages to the clients.
+
+When you run Open Liberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following command to start the `system` service in dev mode:
 
 [role='command']
 ```
 mvn -pl system liberty:dev
 ```
+
 After you see the following message, your application server in dev mode is ready:
 
 [source, role="no_copy"]
@@ -119,7 +129,7 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
-the `system` service is responsible for handling the messages produced by the scheduler and forwarding them to the front-end client. This can be achieved by configuring the `system` service as a WebSocket endpoint.
+The `system` service is responsible for handling the messages produced by the scheduler and forwarding them to the front-end client. This can be achieved by configuring the `system` service as a WebSocket endpoint.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
