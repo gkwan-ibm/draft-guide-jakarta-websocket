@@ -1,8 +1,12 @@
 <server description="System Service">
 
     <featureManager>
+        <!-- tag::webSocket[] -->
         <feature>websocket-2.0</feature>
+        <!-- end::webSocket[] -->
+        <!-- tag::jsonB[] -->
         <feature>jsonb-2.0</feature>
+        <!-- end::jsonB[] -->
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9081"/>

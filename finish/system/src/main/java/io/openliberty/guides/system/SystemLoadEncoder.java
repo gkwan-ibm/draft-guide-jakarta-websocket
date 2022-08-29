@@ -19,8 +19,9 @@ import jakarta.websocket.Encoder;
 public class SystemLoadEncoder implements Encoder.Text<JsonObject> {
 
     @Override
+    // tag::encode[]
     public String encode(JsonObject object) throws EncodeException {
         return object.toString();
     }
-
+    // end::encode[]
 }
