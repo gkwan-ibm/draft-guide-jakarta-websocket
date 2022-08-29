@@ -1,4 +1,4 @@
-//  Copyright (c) 2020, 2022 IBM Corporation and others.
+//  Copyright (c) 2022 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -9,25 +9,25 @@
 :projectid: jakarta-websocket
 :page-layout: guide-multipane
 :page-duration: 30 minutes
-:page-releasedate: 2020-12-08
+:page-releasedate: 2022-12-08
 :page-guide-category: microprofile
 :page-essential: false
-:page-description: Learn how to stream messages from a backend service to a front-end client by using Jakarta WebSockets.
+:page-description: Learn how to stream messages between server service and front-end clients by using Jakarta WebSockets.
 :guide-author: Open Liberty
-:page-tags: ['MicroProfile', 'Jakarta EE']
-:page-related-guides: ['microprofile-reactive-messaging', 'microprofile-reactive-messaging-acknowledgment', 'microprofile-reactive-messaging-rest-integration', 'reactive-service-testing', 'containerize']
+:page-tags: ['Jakarta EE']
+:page-related-guides: ['grpc-intro']
 :page-permalink: /guides/{projectid}
 :imagesdir: /img/guide/{projectid}
-:page-seo-title: Streaming updates from a microservice using Jakarta WebSockets
-:page-seo-description: A getting started tutorial with examples on how to stream updates to a front-end client from a cloud-native Java application using Jakarta RESTful Web Services (JAX-RS; formerly Java API for RESTful Web Services) and Jakarta WebSockets.
+:page-seo-title: Streaming messages to communicate server service and front-end clients using Jakarta WebSockets APIs
+:page-seo-description: A getting started tutorial with examples on how to stream messages to communicate front-end clients and a cloud-native Java application by using Jakarta WebSockets APIs.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-= Streaming messages between client and server services using Jakarta WebSockets
+= Streaming messages between server service and clients using Jakarta WebSockets
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to stream updates from a system service to a front-end client by using Jakarta WebSockets.
+Learn how to stream messages between a server service and front-end clients by using Jakarta WebSockets.
 
 // =================================================================================================
 //  What you'll learn
@@ -35,13 +35,13 @@ Learn how to stream updates from a system service to a front-end client by using
 
 == What you'll learn
 
-https://jakarta.ee/specifications/websocket/2.1/jakarta-websocket-spec-2.1.html[Jakarta WebSocket API^] enables dual communication between a server and endpoint. First, the client makes a connection over the server using HTTP. The server sends messages to the client at regular intervals of time. WebSockets differ from Server-Sent Events in that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth. 
+https://jakarta.ee/specifications/websocket[Jakarta WebSockets^] enable dual communication between server and client endpoints. First, the clients make connection over to the server using HTTP. The server can boardcast messages to the clients. WebSockets differ from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth.
 
-The application you will build in this guide consists of a `frontend` service and a `system` service. The scheduler sends messages to the Jakarta WebSocket server every 10 seconds. The messages are then broadcasted from the Jakarta WebSocket server to the front end service. The following diagram depicts the application that is used in this guide. 
+The application you will build in this guide consists of a `system` server service and a `frontend` client service. The scheduler in the `frontend` service sends messages to the `system` service every 10 seconds. The `system` service broadcasts messages to the front-end clients. The following diagram depicts the application that is used in this guide. 
 
-In this guide, you will set up the load schedule to push the messages to the Jakarta WebSocket server. You will also set up the server which in turn is responsible for broadcasting messages to all the clients. Finally, you will configure the client in the `frontend` service to subscribe to these messages, consume them, and display them in the UI.
+image::architecture.png[Application architecture where system and client services uses Jakarta Websockets API to connect and communicate. align="center"]
 
-image::architecture.png[Jakarta Websocket application architecture where system service uses Websocket API to connect and send messages to a front-end client. align="center"]
+You'll learn how to use Jakarta Websockets API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScrpt `WebSocket` object in HTML file to build websocket connenction, subscribes on different events, and displays the broadcasting messages from the `system` service in the table.
 
 // =================================================================================================
 // Getting started
