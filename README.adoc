@@ -41,7 +41,7 @@ The application you will build in this guide consists of a `system` server servi
 
 image::architecture.png[Application architecture where system and client services uses Jakarta Websockets API to connect and communicate. align="center"]
 
-You'll learn how to use Jakarta Websockets API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScrpt `WebSocket` object in HTML file to build websocket connenction, subscribes on different events, and displays the broadcasting messages from the `system` service in a table.
+You'll learn how to use Jakarta Websockets API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScrpt `WebSocket` object in HTML file to build websocket connenction, subscribe on different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
