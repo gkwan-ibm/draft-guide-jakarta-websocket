@@ -103,6 +103,8 @@ mvn -pl frontend liberty:stop
 
 == Creating the WebSocket server service
 
+In this section, you will create the WebSocket `system` service that broadcasts messages to the clients.
+
 Navigate to the `start` directory to begin.
 
 // cloud-hosted guide instructions:
@@ -111,8 +113,6 @@ ifdef::cloud-hosted[]
 cd /home/project/draft-guide-jakarta-websocket/start
 ```
 endif::[]
-
-In this section, you will create the WebSocket `system` service that broadcasts messages to the clients.
 
 When you run Open Liberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following command to start the `system` service in dev mode:
 
@@ -129,7 +129,7 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
-The `system` service is responsible for handling the messages produced by the scheduler and forwarding them to the front-end client. This can be achieved by configuring the `system` service as a WebSocket endpoint.
+The `system` service is responsible for handling the messages produced by the scheduler, building system load messages, and forwarding them to the clients. This can be achieved by configuring the `system` service as a WebSocket `ServerEndpoint`.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
