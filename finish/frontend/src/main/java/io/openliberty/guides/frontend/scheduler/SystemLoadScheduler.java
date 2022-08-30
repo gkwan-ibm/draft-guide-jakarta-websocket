@@ -23,24 +23,34 @@ import jakarta.ejb.Singleton;
 @Singleton
 public class SystemLoadScheduler {
 
-    private SystemClient client;
+    private SystemClient client; 
+    // tag::messages[]
     final static private String[] messages = new String[] {
         "loadAverage", "memoryUsage", "both" };
+    // end::messages[]
 
+    // tag::postConstruct[]
     @PostConstruct
     public void init() {
         try {
+        	  // tag::systemClient[]
             client = new SystemClient(new URI("ws://localhost:9081/systemLoad"));
+        	  // end::systemClient[]
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    // end::postConstruct[]
 
+    // tag::schedule[]
     @Schedule(second = "*/10", minute = "*", hour = "*", persistent = false)
+    // end::schedule[]
+    // tag::sendSystemLoad[]
     public void sendSystemLoad() {
         Random r = new Random();
         client.sendMessage(messages[r.nextInt(3)]);
     }
+    // end::sendSystemLoad[]
 
     @PreDestroy
     public void close() {
