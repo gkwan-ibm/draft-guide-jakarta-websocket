@@ -34,8 +34,8 @@ public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
                     .build();
             return error;
         }
-    // end::decode[]    
     }
+    // end::decode[]    
 
     @Override
     // tag::willDecode[]
@@ -46,8 +46,8 @@ public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
         } catch (Exception e) {
             return false;
         }
-    // end::willDecode[]    
     }
+    // end::willDecode[]    
 
 }
 // end::SystemLoadDecoder[]

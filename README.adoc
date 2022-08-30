@@ -163,7 +163,7 @@ SystemLoadEncoder.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadEncoder.java[]
 ----
 
-The [hotspot=SystemLoadEncoder file=1]`SystemLoadEncoder` class implements the `Encoder.Text` interface, accepts the `JsonObject` message, and converts the message to a string value by the [hotspot=encode file=1]`encode()` override method.
+The [hotspot=SystemLoadEncoder file=1]`SystemLoadEncoder` class implements the `Encoder.Text` interface, accepts the `JsonObject` message, and converts the message to a string by the [hotspot=encode file=1]`encode()` override method.
 
 
 // File 2
@@ -180,7 +180,7 @@ SystemLoadDecoder.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java[]
 ----
 
-The [hotspot=SystemLoadDecoder file=2]`SystemLoadDecoder` class implements the `Decoder.Text` interface, accepts string message, and decodes the string back into a `JsonObject` by the [hotspot=encode file=1]`decode()` override method. The [hotspot=willDecode file=2]`willDecode` override method checks whether the string can be decoded into JSON object and returns a boolean value.
+The [hotspot=SystemLoadDecoder file=2]`SystemLoadDecoder` class implements the `Decoder.Text` interface, accepts string message, and decodes the string back into a `JsonObject` by the [hotspot=decode file=2]`decode()` override method. The [hotspot=willDecode file=2]`willDecode` override method checks whether the string can be decoded into JSON object and returns a boolean value.
 
 
 // File 3
@@ -190,7 +190,7 @@ server.xml
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-Based on the functionalities discussed above, the features required in the `server.xml` are [hotspot=webSocket file=3]`websocket-2.0` and [hotspot=jsonB file=3]`jsonb-2.0`.
+The required [hotspot=webSocket file=3]`websocket-2.0` and [hotspot=jsonB file=3]`jsonb-2.0` features has been enabled for you in the `server.xml` configuration file.
 
 // =================================================================================================
 // Creating the frontend service
