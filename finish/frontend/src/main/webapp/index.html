@@ -70,10 +70,6 @@
         <script>
     const webSocket = new WebSocket('ws://localhost:9081/systemLoad')
 
-    webSocket.onerror = function (event) {
-        console.log(event);
-    };
-
     webSocket.onopen = function (event) {
         console.log(event);
     };
@@ -87,6 +83,10 @@
                              '<td>' + loadAverage + '</td>' +
                              '<td>' + memoryUsage + '</td>';
         document.getElementById('systemLoadsTableBody').appendChild(tableRow);
+    };
+    
+    webSocket.onerror = function (event) {
+        console.log(event);
     };
         </script>
     </body>
