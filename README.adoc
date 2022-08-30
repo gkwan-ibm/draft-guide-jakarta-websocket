@@ -180,7 +180,7 @@ SystemLoadDecoder.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java[]
 ----
 
-The [hotspot=SystemLoadDecoder file=2]`SystemLoadDecoder` class implements the `Decoder.Text` interface, accepts string message, and decodes the string back into a `JsonObject` by the [hotspot=decode file=2]`decode()` override method. The [hotspot=willDecode file=2]`willDecode` override method checks whether the string can be decoded into JSON object and returns a boolean value.
+The [hotspot=SystemLoadDecoder file=2]`SystemLoadDecoder` class implements the `Decoder.Text` interface, accepts string message, and decodes the string back into a `JsonObject` by the [hotspot=decode file=2]`decode()` override method. The [hotspot=willDecode file=2]`willDecode()` override method checks whether the string can be decoded into JSON object and returns a boolean value.
 
 
 // File 3
