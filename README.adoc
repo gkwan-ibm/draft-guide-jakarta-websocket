@@ -272,9 +272,11 @@ The `index.html` front-end UI displays a table which each row contains a time, s
 
 == Running the application
 
-Once your application is up and running, open your browser and check out your `frontend` service by going to http://localhost:9080. 
+Because you are running the `system` and `frontend` services in dev mode, the changes that you made were automatically picked up. You’re now ready to check out your application in your browser.
 
-Visit http://localhost:9080 again on a different browser and verify that both the UI sessions are being updated every 10 seconds. 
+Point your browser to the http://localhost:9080 URL to test out the `frontend` service.
+
+Visit http://localhost:9080 URL again on a different tab or browser and verify that both sessions are being updated every 10 seconds.
 
 // =================================================================================================
 // Testing the application
@@ -295,7 +297,7 @@ SystemClient.java
 include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemClient.java[]
 ----
 
-The SystemClient is very similar to the one created previously. You can use the same lifecycle annotations that were used in the server endpoint such as [hotspot=onOpen file=0]`@OnOpen` and [hotspot=onMessage file=0]`@OnMessage`. The WebSocket container class here is used to connect to a specified URL. During the `@OnMessage` lifecycle, the String message received is decoded into a JSON object which is passed to the verify method of the SystemServiceIT class. 
+The `SystemClient` class is similar to the WebSocket client class from the `frontend` service created in the previous section. At the [hotspot=onMessage file=0]`onMessage()` method, decode and verify the message . 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -310,12 +312,12 @@ SystemServiceIT.java
 include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemServiceIT.java[]
 ----
 
-There are two tests that have to be created within this class to ensure correct functionality of the WebSocket application. The testSystem method initializes a count down latch followed by establishing a connection to the ws://localhost:9081/systemLoad URI. The client then sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
+There are two test cases to ensure correct functionality of the `system` sevice. The `testSystem()` method verifies one client connention and the `testSystemMultipleSessions()` method verifies multiple client connentions. 
 
-Similarly, for the testSystemMultipleSessions initializes 3 instances of SystemClient out of which one sends a message to the WebSocket server. The count Down latch is then awaited on to be closed with a timeout of 5 seconds. The count of the countDown is then returned and is then confirmed to not be zero. 
 
-[role=command]
-include::{common-includes}/devmode-test.adoc[]
+=== Running the tests
+
+Because you started Open Liberty in dev mode, you can run the tests by pressing the `enter/return` key from the command-line session where you started the `system` service.
 
 [source, role="no_copy"]
 ----
@@ -330,13 +332,24 @@ Results:
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-When you are done checking out the services, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `frontend` services,  or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `frontend` services:
-
+When you are done checking out the services, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `frontend` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `frontend` services:
+// static guide instruction
+ifndef::cloud-hosted[]
 [role="command"]
 ----
 mvn -pl system liberty:stop
 mvn -pl frontend liberty:stop
 ----
+endif::[]
+// cloud hosted instruction
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/draft-guide-jakarta-websockets/start
+mvn -pl system liberty:stop
+mvn -pl frontend liberty:stop
+```
+endif::[]
+
 
 // =================================================================================================
 // Great work! You're done!
@@ -345,20 +358,6 @@ mvn -pl frontend liberty:stop
 == Great work! You're done!
 
 You developed an application that subscribes to real time updates by using Jakarta WebSockets and Open Liberty.
-
-== Related Links
-
-Learn more about MicroProfile.
-
-https://microprofile.io/[See the MicroProfile specs^]
-
-https://openliberty.io/docs/ref/microprofile[View the MicroProfile API^]
-
-https://download.eclipse.org/microprofile/microprofile-reactive-messaging-1.0/microprofile-reactive-messaging-spec.html#_microprofile_reactive_messaging[View the MicroProfile Reactive Messaging Specification^]
-
-https://openliberty.io/docs/ref/javaee/8/#package=javax/ws/rs/sse/package-frame.html&class=javax/ws/rs/sse/package-summary.html[View the JAX-RS Server-Sent Events API^]
-
-https://html.spec.whatwg.org/multipage/server-sent-events.html[View the Server-Sent Events HTML Specification^]
 
 include::{common-includes}/attribution.adoc[subs="attributes"]
 

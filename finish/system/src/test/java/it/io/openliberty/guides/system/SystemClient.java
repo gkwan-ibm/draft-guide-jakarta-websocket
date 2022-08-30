@@ -10,7 +10,7 @@ package it.io.openliberty.guides.system;
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-
+// end::copyright[]
 
 import java.net.URI;
 
@@ -23,9 +23,7 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.WebSocketContainer;
 
-// tag::clientEndpoint[]
 @ClientEndpoint()
-// end::clientEndpoint[]
 public class SystemClient {
 
     private Session session;
@@ -39,21 +37,19 @@ public class SystemClient {
         }
     }
 
-    // tag::onOpen[]
     @OnOpen
-    // end::onOpen[]
     public void onOpen(Session session) {
         this.session = session;
     }
 
     // tag::onMessage[]
     @OnMessage
-    // tag::onOpen[]
     public void onMessage(String message, Session userSession) throws Exception {
         SystemLoadDecoder decoder = new SystemLoadDecoder();
         JsonObject systemLoad = decoder.decode(message);
         SystemServiceIT.verify(systemLoad);
     }
+    // end::onMessage[]
 
     public void sendMessage(String message) {
         session.getAsyncRemote().sendText(message);
