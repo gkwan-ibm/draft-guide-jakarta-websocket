@@ -263,7 +263,7 @@ index.html
 include::finish/frontend/src/main/webapp/index.html[]
 ----
 
-The `index.html` front-end UI displays a table which each row contains a time, system load and the memory usage of the `system` service. Use JavaScript [hotspot=10 file=2]`WebSocket` to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The `webSocket.onopen` event is triggered when the connection is established. The `webSocket.onerror` event defines how to tackle errors. The `webSocket.onmessage` event receives message from the server and insert a row with data from the message into the table. Most modern web browsers support Jakarta WebSockets.
+The `index.html` front-end UI displays a table which each row contains a time, system load and the memory usage of the `system` service. Use JavaScript [hotspot=10-12 file=2]`WebSocket` to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The `webSocket.onopen` event is triggered when the connection is established. The `webSocket.onerror` event defines how to tackle errors. The `webSocket.onmessage` event receives message from the server and insert a row with data from the message into the table. Most modern web browsers support Jakarta WebSockets.
 
 
 // =================================================================================================
