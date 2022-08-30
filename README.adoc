@@ -143,8 +143,10 @@ SystemService.java
 ----
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
 ----
+ 
+Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation to make it as a WebSocket server. The methods define the lifecycle of different phases like establishing a connection, receiving a message, and closing the connection with the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotations respectively. The method annotated with the [hotspot=onError file=0]`@OnError` annotation that is responsible for tackling errors.
 
-The service can be configured as an endpoint using the [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation. Within this class, you will also define the lifecycle of different phases like establishing a connection, sending a message during the connection and closing the connection. This is achieved by the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotation respectively. There is also the [hotspot=onError file=0]`@OnError` annotation which is responsible for tackling the scenario in which the server is unable to establish a connection.
+On the `onMessage()` method, when a message is received through the parameter `option`, construct a message with different values and then boardcast the message to the client.
 
 During the `OnOpen` phase, a message is displayed in the console stating that the server is connected to the session. Similarly, during in the `OnClose` phase, a message is displayed on the console stating that the sessions has been closed along with the reason. During `OnMessage` phase, the message received from the server is displayed on the console. Since the messages have to be sent as JSON objects, they have to encoded and decoded.
 
