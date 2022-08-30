@@ -58,36 +58,57 @@ public class SystemService {
     // tag::onOpen[]
     @OnOpen
     // end::onOpen[]
+    // tag::onOpenMethod[]
     public void onOpen(Session session) {
         System.out.println("Server connected to session: " + session.getId());
         sessions.add(session);
     }
+    // end::onOpenMethod[]
     
     // tag::onMessage[]
     @OnMessage
     // end::onMessage[]
+    // tag::onMessageMethod[]
     public void onMessage(String option, Session session) {
         System.out.println("Server received message \"" + option + "\" " +
                            "from session: " + session.getId());
         try {
             JsonObjectBuilder builder = Json.createObjectBuilder();
             builder.add("time", Calendar.getInstance().getTime().toString());
+            // tag::loadAverage[]
             if (option.equalsIgnoreCase("loadAverage") ||
+            // end::loadAverage[]
                 option.equalsIgnoreCase("both")) {
                 builder.add("loadAverage", Double.valueOf(osBean.getSystemLoadAverage()));
             }
+            // tag::memoryUsageOrBoth[]
             if (option.equalsIgnoreCase("memoryUsage") ||
                 option.equalsIgnoreCase("both")) {
+            // end::memoryUsageOrBoth[]
                 long heapMax = memBean.getHeapMemoryUsage().getMax();
                 long heapUsed = memBean.getHeapMemoryUsage().getUsed();
                 builder.add("memoryUsage", Double.valueOf(heapUsed * 100.0 / heapMax ));
             }
             JsonObject systemLoad = builder.build();
+            // tag::sendToAllSessions[]
             sendToAllSessions(systemLoad);
+            // end::sendToAllSessions[]
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    // end::onMessageMethod[]
+
+    // tag::onClose[]
+    @OnClose
+    // end::onClose[]
+    // tag::onCloseMethod[]
+    public void onClose(Session session, CloseReason closeReason) {
+        System.out.println("Session " + session.getId() +
+                           " was closed with reason " + closeReason.getCloseCode());
+        sessions.remove(session);
+    }
+    // end::onCloseMethod[]
 
     // tag::onError[]
     @OnError
@@ -96,14 +117,4 @@ public class SystemService {
         System.out.println("WebSocket error for " + session.getId() + " " +
                            throwable.getMessage());
     }
-
-    // tag::onClose[]
-    @OnClose
-    // end::onClose[]
-    public void onClose(Session session, CloseReason closeReason) {
-        System.out.println("Session " + session.getId() +
-                           " was closed with reason " + closeReason.getCloseCode());
-        sessions.remove(session);
-    }
-
 }
