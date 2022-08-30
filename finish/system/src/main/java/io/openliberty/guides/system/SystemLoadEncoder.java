@@ -16,6 +16,7 @@ import jakarta.json.JsonObject;
 import jakarta.websocket.EncodeException;
 import jakarta.websocket.Encoder;
 
+// tag::SystemLoadEncoder[]
 public class SystemLoadEncoder implements Encoder.Text<JsonObject> {
 
     @Override
@@ -25,3 +26,4 @@ public class SystemLoadEncoder implements Encoder.Text<JsonObject> {
     }
     // end::encode[]
 }
+// end::SystemLoadEncoder[]

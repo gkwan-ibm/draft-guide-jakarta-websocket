@@ -163,8 +163,10 @@ SystemLoadEncoder.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadEncoder.java[]
 ----
 
-This class is responsible for accepting a String input and then returning the same String value as a JSON object. This is achieved using the [hotspot=encode file=1]`encode` method.
+The [hotspot=SystemLoadEncoder file=1]`SystemLoadEncoder` class implements the `Encoder.Text` interface, accepts the `JsonObject` message, and converts the message to a string value by the [hotspot=encode file=1]`encode()` override method.
 
+
+// File 2
 [role="code_command hotspot file=2", subs="quotes"]
 ----
 #Create the SystemLoadDecoder class.#
@@ -178,7 +180,8 @@ SystemLoadDecoder.java
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemLoadDecoder.java[]
 ----
 
-This class decodes the String back into a JSON object. This is achieved using the [hotspot=decode file=2]`decode` method. It also adds a [hotspot=willDecode file=2]`willDecode` check to see if the String can be decoded into JSON object and returns a boolean value of either true or false.
+The [hotspot=SystemLoadDecoder file=2]`SystemLoadDecoder` class implements the `Decoder.Text` interface, accepts string message, and decodes the string back into a `JsonObject` by the [hotspot=encode file=1]`decode()` override method. The [hotspot=willDecode file=2]`willDecode` override method checks whether the string can be decoded into JSON object and returns a boolean value.
+
 
 // File 3
 server.xml

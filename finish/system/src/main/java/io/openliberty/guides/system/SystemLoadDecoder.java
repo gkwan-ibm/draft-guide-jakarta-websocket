@@ -20,6 +20,7 @@ import jakarta.json.JsonReader;
 import jakarta.websocket.DecodeException;
 import jakarta.websocket.Decoder;
 
+// tag::SystemLoadDecoder[]
 public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
 
     @Override
@@ -49,3 +50,4 @@ public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
     }
 
 }
+// end::SystemLoadDecoder[]
