@@ -12,22 +12,22 @@
 :page-releasedate: 2022-12-08
 :page-guide-category: microprofile
 :page-essential: false
-:page-description: Learn how to stream messages between server service and front-end clients by using Jakarta WebSockets.
+:page-description: Learn how to use Jakarta WebSockets API to stream messages between client and server services.
 :guide-author: Open Liberty
 :page-tags: ['Jakarta EE']
 :page-related-guides: ['grpc-intro']
 :page-permalink: /guides/{projectid}
 :imagesdir: /img/guide/{projectid}
-:page-seo-title: Streaming messages to communicate server service and front-end clients using Jakarta WebSockets APIs
-:page-seo-description: A getting started tutorial with examples on how to stream messages to communicate front-end clients and a cloud-native Java application by using Jakarta WebSockets APIs.
+:page-seo-title: Streaming messages to communicate clients and server services using Jakarta WebSockets APIs
+:page-seo-description: A getting started tutorial with examples on how to stream messages to front-end clients from a cloud-native Java application by using Jakarta WebSockets APIs.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-= Streaming messages between server and clients using Jakarta WebSockets
+= Streaming messages between client and server using Jakarta WebSockets
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to stream messages between a server service and front-end clients by using Jakarta WebSockets.
+Learn how to use Jakarta WebSockets API to stream messages between client and server services.
 
 // =================================================================================================
 //  What you'll learn
@@ -35,9 +35,9 @@ Learn how to stream messages between a server service and front-end clients by u
 
 == What you'll learn
 
-https://jakarta.ee/specifications/websocket[Jakarta WebSockets^] enable dual communication between server and client endpoints. First, the clients make connection over to the server using HTTP. The server can boardcast messages to the clients. WebSockets differ from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth.
+https://jakarta.ee/specifications/websocket[Jakarta WebSockets^] enable dual communication between client and server endpoints. First, the clients make connection over to the server using HTTP. The server can boardcast messages to the clients. WebSockets differ from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth.
 
-The application you will build in this guide consists of a `system` server service and a `frontend` client service. The scheduler in the `frontend` service sends messages to the `system` service every 10 seconds. The `system` service broadcasts messages to the front-end clients. The following diagram depicts the application that is used in this guide. 
+The application you will build in this guide consists of the `frontend` client service and the `system` server service. The scheduler in the `frontend` service sends messages to the `system` service every 10 seconds. The `system` service broadcasts messages to the `frontend` clients. The following diagram depicts the application that is used in this guide. 
 
 image::architecture.png[Application architecture where system and client services uses Jakarta Websockets API to connect and communicate. align="center"]
 
@@ -87,7 +87,7 @@ After you see the following message in both command-line sessions, both your ser
 The defaultServer is ready to run a smarter planet. 
 ----
 
-Check out the service at the http://locahost:9080 URL. See that the table is being updated for every 10 seconds. 
+Check out the service at the http://localhost:9080 URL. See that the table is being updated for every 10 seconds. 
 
 After you are finished checking out the application, stop both the `system` and `frontend` services by pressing `CTRL+C` in the command-line sessions where you ran them. Alternatively, you can run the following goals from the `finish` directory in another command-line session:
 
@@ -103,7 +103,7 @@ mvn -pl frontend liberty:stop
 
 == Creating the WebSocket server service
 
-In this section, you will create the WebSocket `system` service that broadcasts messages to the clients.
+In this section, you will create the `system` WebSocket server service that broadcasts messages to clients.
 
 Navigate to the `start` directory to begin.
 
@@ -129,7 +129,7 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
-The `system` service is responsible for handling the messages produced by the scheduler, building system load messages, and forwarding them to the clients. This can be achieved by configuring the `system` service as a WebSocket `ServerEndpoint`.
+The `system` service is responsible for handling the messages produced by the scheduler, building system load messages, and forwarding them to clients. This can be achieved by configuring the `system` service as a WebSocket `ServerEndpoint`.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
