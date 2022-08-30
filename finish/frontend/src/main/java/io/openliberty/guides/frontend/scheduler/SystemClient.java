@@ -10,6 +10,7 @@ package io.openliberty.guides.frontend.scheduler;
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
+// end::copyright[]
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,22 +29,28 @@ public class SystemClient {
 
     private Session session;
 
+    // tag::constructor[]
     public SystemClient(URI endpoint) {
         try {
+       	    // tag::webSocketAPI[]
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpoint);
+       	    // end::webSocketAPI[]
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+    // end::constructor[]
 
     // tag::onOpen[]
     @OnOpen
     // end::onOpen[]
+    // tag::onOpenMethod[]
     public void onOpen(Session session) {
         this.session = session;
         System.out.print("Scheduler connected to the server.");
     }
+    // end::onOpenMethod[]
 
     // tag::onMessage[]
     @OnMessage

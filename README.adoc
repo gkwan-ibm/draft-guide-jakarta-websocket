@@ -190,7 +190,7 @@ server.xml
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-The required [hotspot=webSocket file=3]`websocket-2.0` and [hotspot=jsonB file=3]`jsonb-2.0` features has been enabled for you in the `server.xml` configuration file.
+The required [hotspot=webSocket file=3]`websocket` and [hotspot=jsonB file=3]`jsonb` features has been enabled for you in the `server.xml` configuration file.
 
 // =================================================================================================
 // Creating the frontend service
@@ -198,13 +198,9 @@ The required [hotspot=webSocket file=3]`websocket-2.0` and [hotspot=jsonB file=3
 
 == Creating the frontend service
 
-Navigate to the `start` directory to begin. 
+In this section, you will create the WebSocket client that communicate with the WebSocket server, the scheduder that uses the WebSocket client to send messages to the server, and a HTML file that uses JavaScrpt `WebSocket` object to build websocket connenction, subscribe on different events, and display the broadcasting messages from the `system` service in a table.
 
-In this section, you will configure the client in the `frontend` service to subscribe to events and display their contents in a UI. 
-
-The front-end UI is a table where each row contains the time, system load and the memory usage od the `system` service. The HTML and styling for the UI is provided for you but you must populate the table with information that is received from the server. 
-
-When you run OpenLiberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following goal to start OpenLiberty in dev mode:
+On another command-line session, navigate to the `start` directory an run the following goal to start the `frontend` service in dev mode:
 
 [role='command']
 ```
@@ -219,6 +215,10 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
+
+The front-end UI is a table where each row contains the time, system load and the memory usage od the `system` service. The HTML and styling for the UI is provided for you but you must populate the table with information that is received from the server. 
+
+
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the SystemClient class.#
@@ -232,7 +232,8 @@ SystemClient.java
 include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemClient.java[]
 ----
 
-Connection to a WebSocket endpoint can be established using the [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation. You can use the same lifecycle annotations that were used in the server endpoint such as [hotspot=onOpen file=0]`@OnOpen` and [hotspot=onMessage file=0]`@OnMessage`. The WebSocket container class here is used to connect to a specified URL. 
+Annotate the [hotspot=clientEndpoint file=0]`SystemClient` class with [hotspot=clientEndpoint file=0]`@ClientEndpoint` annotation to make it as a WebSocket client. Create a constructor that uses the [hotspot=webSocketAPI file=0]`websocket` APIs to establish connection with the server. Annotate the `onOpen()` method with the [hotspot=onOpen file=0]`@OnOpen` annotation that persists the client session when the connection is established. Annotate the `onMessage()` method with the [hotspot=onMessage file=0]`@OnMessage` annotation that handles messages from the `system` WebSocket server.
+
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----

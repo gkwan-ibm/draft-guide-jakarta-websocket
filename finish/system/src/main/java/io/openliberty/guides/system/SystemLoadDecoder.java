@@ -47,7 +47,7 @@ public class SystemLoadDecoder implements Decoder.Text<JsonObject> {
             return false;
         }
     }
-    // end::willDecode[]    
+    // end::willDecode[]
 
 }
 // end::SystemLoadDecoder[]
