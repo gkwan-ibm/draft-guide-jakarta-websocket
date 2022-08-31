@@ -246,8 +246,7 @@ SystemLoadScheduler.java
 include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemLoadScheduler.java[]
 ----
 
-The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the Websocket server every 10 seconds through the [hotspot=schedule file=1]`@Schedule` annotation from the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service.
-
+The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the Websocket server. By using the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service, annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation, so that it will send out message for every 10 seconds.
 
 Now, create the front-end UI where the images and styles for the UI are provided for you. 
 
