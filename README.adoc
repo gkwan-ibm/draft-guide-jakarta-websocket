@@ -9,8 +9,7 @@
 :projectid: jakarta-websocket
 :page-layout: guide-multipane
 :page-duration: 25 minutes
-:page-releasedate: 2022-12-08
-:page-guide-category: microprofile
+:page-releasedate: 2022-11-08
 :page-essential: false
 :page-description: Learn how to use Jakarta WebSocket API to stream messages between client and server services.
 :guide-author: Open Liberty
@@ -53,8 +52,8 @@ The fastest way to work through this guide is to clone the Git repository and us
 
 [role='command']
 ```
-git clone https://github.com/gkwan-ibm/draft-guide-jakarta-websocket.git
-cd guide-jakarta-websocket
+git clone https://github.com/openliberty/draft-guide-jakarta-websocket.git
+cd draft-guide-jakarta-websocket
 ```
 
 The `start` directory contains the starting project that you will build upon. 
