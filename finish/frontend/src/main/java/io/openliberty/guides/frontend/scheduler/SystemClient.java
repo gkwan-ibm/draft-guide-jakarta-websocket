@@ -44,20 +44,18 @@ public class SystemClient {
 
     // tag::onOpen[]
     @OnOpen
-    // end::onOpen[]
-    // tag::onOpenMethod[]
     public void onOpen(Session session) {
         this.session = session;
         System.out.print("Scheduler connected to the server.");
     }
-    // end::onOpenMethod[]
+    // end::onOpen[]
 
     // tag::onMessage[]
     @OnMessage
-    // end::onMessage[]
     public void onMessage(String message, Session session) throws Exception {
         System.out.print("Scheduler received message from the server: " + message);
     }
+    // end::onMessage[]
 
     public void sendMessage(String message) {
         session.getAsyncRemote().sendText(message);
