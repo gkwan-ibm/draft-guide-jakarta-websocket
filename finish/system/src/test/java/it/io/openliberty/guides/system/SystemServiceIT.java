@@ -32,6 +32,7 @@ public class SystemServiceIT {
 
     private static CountDownLatch countDown;
 
+    // tag::testSystem[]
     @Test
     @Order(1)
     public void testSystem() throws Exception {
@@ -44,7 +45,9 @@ public class SystemServiceIT {
         assertEquals(0, countDown.getCount(),
                 "The countDown was not 0.");
     }
+    // end::testSystem[]
 
+    // tag::testSystemMultipleSessions[]
     @Test
     @Order(2)
     public void testSystemMultipleSessions() throws Exception {
@@ -61,6 +64,7 @@ public class SystemServiceIT {
         assertEquals(0, countDown.getCount(),
             "The countDown was not 0.");
     }
+    // end::testSystemMultipleSessions[]
 
     private static void startCountDown(int count) {
         countDown = new CountDownLatch(count);

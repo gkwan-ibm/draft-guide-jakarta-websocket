@@ -1,9 +1,11 @@
 <server description="Frontend">
 
     <featureManager>
+    	  <!-- tag::features[] -->
         <feature>restfulWS-3.0</feature>
         <feature>websocket-2.0</feature>
         <feature>enterpriseBeansLite-4.0</feature>
+    	  <!-- end::features[] -->
     </featureManager>
 
     <variable name="default.http.port" defaultValue="9080"/>
