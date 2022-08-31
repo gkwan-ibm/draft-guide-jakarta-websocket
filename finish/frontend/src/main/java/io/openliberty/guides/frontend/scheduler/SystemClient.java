@@ -32,10 +32,10 @@ public class SystemClient {
     // tag::constructor[]
     public SystemClient(URI endpoint) {
         try {
-       	    // tag::webSocketAPI[]
+            // tag::webSocketAPI[]
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpoint);
-       	    // end::webSocketAPI[]
+            // end::webSocketAPI[]
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -56,7 +56,7 @@ public class SystemClient {
     @OnMessage
     // end::onMessage[]
     public void onMessage(String message, Session session) throws Exception {
-    	System.out.print("Scheduler received message from the server: " + message);
+        System.out.print("Scheduler received message from the server: " + message);
     }
 
     public void sendMessage(String message) {

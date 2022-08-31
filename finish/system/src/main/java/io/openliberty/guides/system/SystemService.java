@@ -45,6 +45,7 @@ public class SystemService {
     private static final MemoryMXBean memBean =
         ManagementFactory.getMemoryMXBean();
 
+    // tag::sendToAllSessionseMethod[]
     public static void sendToAllSessions(JsonObject systemLoad) {
         for (Session session : sessions) {
             try {
@@ -54,21 +55,23 @@ public class SystemService {
             }
         }
     }
+    // end::sendToAllSessionseMethod[]
 
+    public static void sendToAllSessio
+    // tag::onOpenMethod[]
     // tag::onOpen[]
     @OnOpen
     // end::onOpen[]
-    // tag::onOpenMethod[]
     public void onOpen(Session session) {
         System.out.println("Server connected to session: " + session.getId());
         sessions.add(session);
     }
     // end::onOpenMethod[]
     
+    // tag::onMessageMethod[]
     // tag::onMessage[]
     @OnMessage
     // end::onMessage[]
-    // tag::onMessageMethod[]
     public void onMessage(String option, Session session) {
         System.out.println("Server received message \"" + option + "\" " +
                            "from session: " + session.getId());
@@ -99,10 +102,10 @@ public class SystemService {
     }
     // end::onMessageMethod[]
 
+    // tag::onCloseMethod[]
     // tag::onClose[]
     @OnClose
     // end::onClose[]
-    // tag::onCloseMethod[]
     public void onClose(Session session, CloseReason closeReason) {
         System.out.println("Session " + session.getId() +
                            " was closed with reason " + closeReason.getCloseCode());

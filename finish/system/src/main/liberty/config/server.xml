@@ -1,4 +1,4 @@
-<server description="System Service">
+<server description="system Service">
 
     <featureManager>
         <!-- tag::webSocket[] -->

@@ -1,4 +1,3 @@
-package it.io.openliberty.guides.system;
 // tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2022 IBM Corporation and others.
@@ -11,6 +10,7 @@ package it.io.openliberty.guides.system;
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
+package it.io.openliberty.guides.system;
 
 import java.net.URI;
 

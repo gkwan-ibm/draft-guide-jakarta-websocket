@@ -129,7 +129,7 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
-The `system` service is responsible for handling the messages produced by the scheduler, building system load messages, and forwarding them to clients. This can be achieved by configuring the `system` service as a WebSocket `ServerEndpoint`.
+The `system` service is responsible for handling the messages produced by the `frontend` scheduler, building system load messages, and forwarding them to clients.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -143,12 +143,12 @@ SystemService.java
 ----
 include::finish/system/src/main/java/io/openliberty/guides/system/SystemService.java[]
 ----
- 
-Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation to make it as a WebSocket server. The `@ServerEndpoint` annotation specifies the `value` attribute for the connection endpiont, the `encoders` attribute for the classes to encode messages, and the `decoders` attribute for classes to decode messages. Annotate the methods that define the WebSocket lifecycle like establishing a connection, receiving a message, and closing the connection with the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotations respectively. The method annotated with the [hotspot=onError file=0]`@OnError` annotation is responsible for tackling errors.
+
+Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerEndpoint` annotation to make it as a WebSocket server. The `@ServerEndpoint` annotation specifies the `value` attribute for the connection endpiont, the `encoders` attribute for the classes to encode messages, and the `decoders` attribute for classes to decode messages. Provide methods that define the WebSocket lifecycle like establishing a connection, receiving a message, and closing the connection by annotating them with the [hotspot=onOpen file=0]`@OnOpen`, [hotspot=onMessage file=0]`@OnMessage` and [hotspot=onClose file=0]`@OnClose` annotations respectively. The method annotated with the [hotspot=onError file=0]`@OnError` annotation is responsible for tackling errors.
 
 The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason of closing connection and removes the session from the client sessions.
 
-The [hotspot=onMessageMethod file=0]`onMessage()` method is called when a client message is received through the parameter `option`. According to the [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` value, construct a message with different values and boardcast the `JsonObject` message to the clients by the [hotspot=sendToAllSessions file=0]`sendToAllSessions()` method.
+The [hotspot=onMessageMethod file=0]`onMessage()` method is called when a message is received through the parameter `option`. According to the [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` value, construct a message with different values and boardcast the `JsonObject` message to the clients by the [hotspot=sendToAllSessions file=0]`sendToAllSessions()` method. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the Websockets API to boardcast the message to all client sessions.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -193,10 +193,10 @@ include::finish/system/src/main/liberty/config/server.xml[]
 The required [hotspot=webSocket file=3]`websocket` and [hotspot=jsonB file=3]`jsonb` features have been enabled for you in the `server.xml` configuration file.
 
 // =================================================================================================
-// Creating the frontend service
+// Creating the frontend client service
 // =================================================================================================
 
-== Creating the frontend service
+== Creating the frontend client service
 
 In this section, you will create the WebSocket client that communicates with the WebSocket server, the scheduder that uses the WebSocket client to send messages to the server, and a HTML file that uses JavaScrpt `WebSocket` object to build websocket connenction, subscribe on different events, and display the broadcasting messages from the `system` service in a table.
 
@@ -320,7 +320,7 @@ SystemServiceIT.java
 include::finish/system/src/test/java/it/io/openliberty/guides/system/SystemServiceIT.java[]
 ----
 
-There are two test cases to ensure correct functionality of the `system` sevice. The [hotspot=testSystem file=1]`testSystem()` method verifies one client connention and the [hotspot=testSystemMultipleSessions file=1]`testSystem()`testSystemMultipleSessions()` method verifies multiple client connentions. 
+There are two test cases to ensure correct functionality of the `system` sevice. The [hotspot=testSystem file=1]`testSystem()` method verifies one client connention and the [hotspot=testSystemMultipleSessions file=1]`testSystemMultipleSessions()` method verifies multiple client connentions. 
 
 
 === Running the tests
