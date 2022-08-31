@@ -12,22 +12,22 @@
 :page-releasedate: 2022-12-08
 :page-guide-category: microprofile
 :page-essential: false
-:page-description: Learn how to use Jakarta WebSockets API to stream messages between client and server services.
+:page-description: Learn how to use Jakarta WebSocket API to stream messages between client and server services.
 :guide-author: Open Liberty
 :page-tags: ['Jakarta EE']
 :page-related-guides: ['grpc-intro']
 :page-permalink: /guides/{projectid}
 :imagesdir: /img/guide/{projectid}
-:page-seo-title: Streaming messages to communicate clients and server services using Jakarta WebSockets APIs
-:page-seo-description: A getting started tutorial with examples on how to stream messages to front-end clients from a cloud-native Java application by using Jakarta WebSockets APIs.
+:page-seo-title: Streaming messages to communicate clients and server services using Jakarta WebSocket
+:page-seo-description: A getting started tutorial with examples on how to stream messages to front-end clients from a cloud-native Java application by using Jakarta WebSocket.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-= Streaming messages between client and server using Jakarta WebSockets
+= Streaming messages between client and server using Jakarta WebSocket
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to use Jakarta WebSockets API to stream messages between client and server services.
+Learn how to use Jakarta WebSocket to stream messages between client and server services.
 
 // =================================================================================================
 //  What you'll learn
@@ -35,13 +35,13 @@ Learn how to use Jakarta WebSockets API to stream messages between client and se
 
 == What you'll learn
 
-https://jakarta.ee/specifications/websocket[Jakarta WebSockets^] enable dual communication between client and server endpoints. First, the clients make connection over to the server using HTTP. The server can boardcast messages to the clients. WebSockets differ from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSockets are bidirectional. WebSockets also enable the functionality of real-time updates over a smaller bandwidth.
+https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enable dual communication between client and server endpoints. First, the clients make connection over to the server using HTTP. The server can boardcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSocket is bidirectional. WebSocket also enables the functionality of real-time updates over a smaller bandwidth.
 
 The application you will build in this guide consists of the `frontend` client service and the `system` server service. The scheduler in the `frontend` service sends messages to the `system` service every 10 seconds. The `system` service broadcasts messages to the `frontend` clients. The following diagram depicts the application that is used in this guide. 
 
-image::architecture.png[Application architecture where system and client services uses Jakarta Websockets API to connect and communicate. align="center"]
+image::architecture.png[Application architecture where system and client services uses Jakarta Websocket API to connect and communicate. align="center"]
 
-You'll learn how to use Jakarta Websockets API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScrpt `WebSocket` object in HTML file to build websocket connenction, subscribe on different events, and display the broadcasting messages from the `system` service in a table.
+You'll learn how to use Jakarta Websocket API to build the `system` service and the scheduler in the `frontend` service. The scheduler pushes messages to the `system` service. Then, the `system` service will broadcast messages to clients. You will also learn how to use JavaScrpt `WebSocket` object in HTML file to build websocket connenction, subscribe on different events, and display the broadcasting messages from the `system` service in a table.
 
 // =================================================================================================
 // Getting started
@@ -148,7 +148,7 @@ Annotate the `SystemService` class with [hotspot=serverEndpoint file=0]`@ServerE
 
 The [hotspot=onOpenMethod file=0]`onOpen()` method stores up the client sessions. The [hotspot=onCloseMethod file=0]`onClose()` method displays the reason of closing connection and removes the session from the client sessions.
 
-The [hotspot=onMessageMethod file=0]`onMessage()` method is called when a message is received through the parameter `option`. According to the [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` value, construct a message with different values and boardcast the `JsonObject` message to the clients by the [hotspot=sendToAllSessions file=0]`sendToAllSessions()` method. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the Websockets API to boardcast the message to all client sessions.
+The [hotspot=onMessageMethod file=0]`onMessage()` method is called when a message is received through the parameter `option`. According to the [hotspot=loadAverage hotspot=memoryUsageOrBoth file=0]`option` value, construct a message with different values and boardcast the `JsonObject` message to the clients by the [hotspot=sendToAllSessions file=0]`sendToAllSessions()` method. The [hotspot=sendToAllSessionseMethod file=0]`sendToAllSessions()` method uses the Websocket API to boardcast the message to all client sessions.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -352,7 +352,7 @@ endif::[]
 // cloud hosted instruction
 ifdef::cloud-hosted[]
 ```bash
-cd /home/project/draft-guide-jakarta-websockets/start
+cd /home/project/draft-guide-jakarta-websocket/start
 mvn -pl system liberty:stop
 mvn -pl frontend liberty:stop
 ```
@@ -365,7 +365,7 @@ endif::[]
 
 == Great work! You're done!
 
-You developed an application that subscribes to real time updates by using Jakarta WebSockets and Open Liberty.
+You developed an application that subscribes to real time updates by using Jakarta WebSocket and Open Liberty.
 
 include::{common-includes}/attribution.adoc[subs="attributes"]
 
