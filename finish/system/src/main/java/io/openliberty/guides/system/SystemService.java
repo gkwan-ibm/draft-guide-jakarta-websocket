@@ -57,7 +57,6 @@ public class SystemService {
     }
     // end::sendToAllSessionseMethod[]
 
-    public static void sendToAllSessio
     // tag::onOpenMethod[]
     // tag::onOpen[]
     @OnOpen
