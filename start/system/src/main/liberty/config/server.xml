@@ -1,0 +1,19 @@
+<server description="system Service">
+
+    <featureManager>
+        <!-- tag::webSocket[] -->
+        <feature>websocket-2.0</feature>
+        <!-- end::webSocket[] -->
+        <!-- tag::jsonB[] -->
+        <feature>jsonb-2.0</feature>
+        <!-- end::jsonB[] -->
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="9081"/>
+    <variable name="default.https.port" defaultValue="9444"/>
+
+    <httpEndpoint host="*" httpPort="${default.http.port}"
+        httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
+
+    <webApplication location="guide-jakarta-websocket-system.war" contextRoot="/"/>
+</server>

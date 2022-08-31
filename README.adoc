@@ -246,7 +246,7 @@ SystemLoadScheduler.java
 include::finish/frontend/src/main/java/io/openliberty/guides/frontend/scheduler/SystemLoadScheduler.java[]
 ----
 
-The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the Websocket server. By using the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service, annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation, so that it will send out message for every 10 seconds.
+The `SystemLoadScheduler` class uses the [hotspot=systemClient file=1]`SystemClient` class to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI at the [hotspot=postConstruct file=1]`@PostConstruct` annotated method. The [hotspot=sendSystemLoad file=1]`sendSystemLoad()` method calls the client to send a random string from either [hotspot=messages file=1]`loadAverage`, [hotspot=messages file=1]`memoryUsage`, or [hotspot=messages file=1]`both` to the `system` service. By using the https://jakarta.ee/specifications/enterprise-beans[Jakarta Enterprise Beans^] Timer Service, annotate the `sendSystemLoad()` method with the [hotspot=schedule file=1]`@Schedule` annotation, so that it will send out message for every 10 seconds.
 
 Now, create the front-end UI where the images and styles for the UI are provided for you. 
 
@@ -263,7 +263,7 @@ index.html
 include::finish/frontend/src/main/webapp/index.html[]
 ----
 
-The `index.html` front-end UI displays a table which each row contains a time, system load and the memory usage of the `system` service. Use JavaScript [hotspot=71 file=2]`WebSocket` to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=73-75 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=77-86 file=2]`webSocket.onmessage` event receives message from the server and insert a row with data from the message into the table. The [hotspot=88-90 file=2]`webSocket.onerror` event defines how to tackle errors. Most modern web browsers support Jakarta WebSockets.
+The `index.html` front-end UI displays a table which each row contains a time, system load and the memory usage of the `system` service. Use JavaScript [hotspot=71 file=2]`WebSocket` to establish a connection to the server by the `ws://localhost:9081/systemLoad` URI. The [hotspot=73-75 file=2]`webSocket.onopen` event is triggered when the connection is established. The [hotspot=77-86 file=2]`webSocket.onmessage` event receives message from the server and insert a row with the data from the message into the table. The [hotspot=88-90 file=2]`webSocket.onerror` event defines how to tackle errors.
 
 // File 3
 frontend/server.xml
@@ -282,9 +282,9 @@ The required features for the `frontend` service have been enabled for you in th
 
 Because you are running the `system` and `frontend` services in dev mode, the changes that you made were automatically picked up. You’re now ready to check out your application in your browser.
 
-Point your browser to the http://localhost:9080 URL to test out the `frontend` service.
+Point your browser to the http://localhost:9080 URL to test out the `frontend` service. See that the table is being updated for every 10 seconds.
 
-Visit http://localhost:9080 URL again on a different tab or browser and verify that both sessions are being updated every 10 seconds.
+Visit http://localhost:9080 URL again on a different tab or browser and verify that both sessions are being updated for every 10 seconds.
 
 // =================================================================================================
 // Testing the application
