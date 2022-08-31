@@ -35,7 +35,7 @@ Learn how to use Jakarta WebSocket to stream messages between client and server 
 
 == What you'll learn
 
-https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enable dual communication between client and server endpoints. First, the clients make connection over to the server using HTTP. The server can boardcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSocket is bidirectional. WebSocket also enables the functionality of real-time updates over a smaller bandwidth.
+https://jakarta.ee/specifications/websocket[Jakarta WebSocket^] enables dual communication between client and server endpoints. First, the clients make connection over to the server using HTTP. The server can boardcast messages to the clients. WebSocket differs from Server-Sent Events (SSE) that SSE is unidirectional from server to client whereas WebSocket is bidirectional. WebSocket also enables the functionality of real-time updates over a smaller bandwidth.
 
 The application you will build in this guide consists of the `frontend` client service and the `system` server service. The scheduler in the `frontend` service sends messages to the `system` service every 10 seconds. The `system` service broadcasts messages to the `frontend` clients. The following diagram depicts the application that is used in this guide. 
 
